@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: abalat
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  nest:
+    build: ./backend
+    environment:
+      NODE_ENV: development # Set to production for production build
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: abalat
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ./frontend # Builds the React app from the frontend directory
+    ports:
+      - "3000:3000" # Maps port 3000 of the container to port 3000 of the host
+    depends_on:
+      - nest
+
+volumes:
+  mysql_data: # Persist data between container restarts
+
+# Optional environment file for sensitive information
+# .env
+# MYSQL_ROOT_PASSWORD=root_password
+# MYSQL_DATABASE=your_database_name
