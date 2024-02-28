@@ -1,1 +1,3 @@
 # abalat
+
+docker-compose up
