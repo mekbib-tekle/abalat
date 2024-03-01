@@ -30,9 +30,15 @@ services:
       - "3000:3000" # Maps port 3000 of the container to port 3000 of the host
     depends_on:
       - nest
+    volumes:
+      - frontend:/app
+    environment:
+      CHOKIDAR_USEPOLLING: true
+      # - WDS_SOCKET_HOST: 127.0.0.1
 
 volumes:
   mysql_data: # Persist data between container restarts
+  frontend:
 
 # Optional environment file for sensitive information
 # .env
