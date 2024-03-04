@@ -31,7 +31,7 @@ services:
     depends_on:
       - nest
     volumes:
-      - frontend:/app
+      - ./frontend:/app
     environment:
       CHOKIDAR_USEPOLLING: true
       # - WDS_SOCKET_HOST: 127.0.0.1
