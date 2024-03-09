@@ -6,6 +6,11 @@ export default () => ({
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
   } as DatabaseConfig,
+
+  jwt: {
+    secret: process.env.JWT_SECRET || 'secret',
+    expiresIn: process.env.JWT_EXPIRES_IN || '60s',
+  },
 });
 
 export type DatabaseConfig = {
@@ -14,4 +19,9 @@ export type DatabaseConfig = {
   username: string;
   password: string;
   database: string;
+};
+
+export type AppJwtConfig = {
+  secret: string;
+  expiresIn: string;
 };

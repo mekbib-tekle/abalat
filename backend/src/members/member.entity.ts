@@ -11,6 +11,21 @@ export class Member {
   @Column()
   lastName: string;
 
-  @Column({ default: true })
+  @Column({
+    unique: true,
+    nullable: false,
+  })
+  username: string;
+
+  @Column({ nullable: false })
+  password: string;
+
+  @Column({ default: true, nullable: true })
   isActive: boolean;
+
+  @Column({ nullable: true })
+  created: Date;
+
+  @Column({ nullable: true })
+  modified: Date;
 }
