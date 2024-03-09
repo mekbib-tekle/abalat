@@ -28,10 +28,8 @@ export class MembersService {
   }
 
   async findOne(id: number): Promise<GetMember | null> {
-    const { password: _, ...rest } = await this.membersRepository.findOneBy({
-      id,
-    });
-    return rest;
+    const user = await this.membersRepository.findOneBy({ id });
+    return user ? user.withNoPassword() : null;
   }
 
   findOneByUsername(username: string): Promise<Member | null> {
@@ -50,5 +48,5 @@ export class MembersService {
 }
 
 // types
-export type GetMember = Omit<Member, 'password'>;
+export type GetMember = Omit<Member, 'password' | 'withNoPassword'>;
 export type PostMember = Omit<Member, 'id' | 'created' | 'modified'>;

@@ -28,4 +28,11 @@ export class Member {
 
   @Column({ nullable: true })
   modified: Date;
+
+  // util for returning user without password
+  // TODO: separate password from user entity
+  withNoPassword() {
+    const { password: _, ...rest } = this;
+    return rest;
+  }
 }

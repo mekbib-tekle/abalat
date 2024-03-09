@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
@@ -16,10 +17,14 @@ export class MembersController {
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  getMember(
+  async getMember(
     @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<GetMember | null> {
-    return this.memberService.findOne(id);
+  ): Promise<GetMember> {
+    const member = await this.memberService.findOne(id);
+    if (!member) {
+      throw new NotFoundException();
+    }
+    return member;
   }
 
   @Post('create')
