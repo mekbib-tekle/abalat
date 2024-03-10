@@ -1,10 +1,12 @@
 import {
   Entity,
   Column,
+  ManyToMany,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Member } from './member.entity';
 
 @Entity()
 export class Ministry {
@@ -18,6 +20,9 @@ export class Ministry {
     name: 'display_name',
   })
   displayName: string;
+
+  @ManyToMany(() => Member, member => member.ministries)
+  members: Member[];
 
   @Column({
       name: 'is_active',

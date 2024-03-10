@@ -2,14 +2,19 @@ import {
     Entity,
     Column,
     OneToOne,
+    OneToMany,
+    ManyToMany,
     JoinColumn,
+    JoinTable,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    DeleteDateColumn
+    DeleteDateColumn,
   } from 'typeorm';
 import { MemberType } from './memberType.entity';
 import { Ministry } from './ministry.entity';
+import { ContactLog } from './contactLog.entity';
+import { MemberUnderMinister } from './MemberUnderMinister.entity';
   
   export enum MaritalStatus {
     Married,
@@ -32,9 +37,9 @@ import { Ministry } from './ministry.entity';
     @JoinColumn({ name: 'member_type_id' })
     memberType: MemberType;
 
-    @OneToOne(() => Ministry)
-    @JoinColumn({ name: 'ministry_id' })
-    ministry: Ministry;
+    @ManyToMany(() => Ministry, ministry => ministry.members)
+    @JoinTable({ name: 'member_ministries' })
+    ministries: Ministry[];
 
     @Column({
       name: 'first_name',
@@ -134,7 +139,35 @@ import { Ministry } from './ministry.entity';
       default: true,
     })
     isActive: boolean;
-  
+
+    /*
+    const minister = await memberRepository.findOne({id: id}, { relations: ['members']})
+    minister.members // returns members that are under this minister
+     */
+    @OneToMany(() => MemberUnderMinister, (log) => log.minister)
+    members: MemberUnderMinister[];
+
+    /*
+    const member = await memberRepository.findOne({id: id}, { relations: ['ministers']})
+    member.ministers // returns ministers the member is followed by
+     */
+    @OneToMany(() => MemberUnderMinister, (log) => log.member)
+    ministers: MemberUnderMinister[];
+
+    /*
+    const minister = await memberRepository.findOne({id: id}, { relations: ['contactedMembers']})
+    minister.contactedMembers // returns members the minister contacted
+     */
+    @OneToMany(() => ContactLog, (log) => log.minister)
+    contactedMembers: ContactLog[];
+
+    /*
+    const member = await memberRepository.findOne({id: id}, { relations: ['contactingMinisters']})
+    member.contactingMinisters // returns ministers the member is contacted by
+     */
+    @OneToMany(() => ContactLog, (log) => log.member)
+    contactingMinisters: ContactLog[];
+
     @CreateDateColumn()
     created: Date;
   

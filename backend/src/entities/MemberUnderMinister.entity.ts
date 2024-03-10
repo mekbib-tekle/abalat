@@ -1,7 +1,7 @@
 import {
     Entity,
     Column,
-    ManyToOne,
+    ManyToOne
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
@@ -9,17 +9,17 @@ import {
 import { Member } from './member.entity';
   
   @Entity()
-  export class ContactLog {
+  export class MemberUnderMinister {
     @PrimaryGeneratedColumn()
     id: number;
   
-    @ManyToOne(() => Member, (minister) => minister.members) // source (member who contacts)
+    @ManyToOne(() => Member, (minister) => minister.members) // source
     minister: Member;
 
     @Column({ nullable: false })
     ministerId: number;
 
-    @ManyToOne(() => Member, (member) => member.ministers) // target (member being contacted)
+    @ManyToOne(() => Member, (member) => member.ministers) // target
     member: Member;
 
     @Column({ nullable: false })
@@ -31,3 +31,4 @@ import { Member } from './member.entity';
     @UpdateDateColumn()
     updated_at: Date;
   }
+  
