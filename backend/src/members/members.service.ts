@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from './member.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MembersService {
@@ -14,15 +15,38 @@ export class MembersService {
     return this.membersRepository.find();
   }
 
-  create(member: Omit<Member, 'id'>): Promise<Member> {
-    return this.membersRepository.save(member);
+  async create(member: PostMember): Promise<GetMember> {
+    const hash = await MembersService.passwordHash(member.password);
+    const { password: _, ...rest } = await this.membersRepository.save({
+      ...member,
+      password: hash,
+      created: new Date(),
+      modified: new Date(),
+    });
+
+    return rest;
   }
 
-  findOne(id: number): Promise<Member | null> {
-    return this.membersRepository.findOneBy({ id });
+  async findOne(id: number): Promise<GetMember | null> {
+    const user = await this.membersRepository.findOneBy({ id });
+    return user ? user.withNoPassword() : null;
+  }
+
+  findOneByUsername(username: string): Promise<Member | null> {
+    return this.membersRepository.findOneBy({ username });
   }
 
   async remove(id: number): Promise<void> {
     await this.membersRepository.delete(id);
   }
+
+  // util
+  private static async passwordHash(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(10);
+    return bcrypt.hash(password, salt);
+  }
 }
+
+// types
+export type GetMember = Omit<Member, 'password' | 'withNoPassword'>;
+export type PostMember = Omit<Member, 'id' | 'created' | 'modified'>;
