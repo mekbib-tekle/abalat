@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration, { DatabaseConfig } from './config/configuration';
 import { MemberHttpModule } from './members/members-http.module';
+import entities from './entities';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MemberHttpModule } from './members/members-http.module';
         ...configService.get<DatabaseConfig>('database'),
         type: 'mysql',
         autoLoadEntities: true,
+        entities,
         synchronize: true,
       }),
 

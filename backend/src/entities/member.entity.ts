@@ -14,7 +14,7 @@ import {
 import { MemberType } from './memberType.entity';
 import { Ministry } from './ministry.entity';
 import { ContactLog } from './contactLog.entity';
-import { MemberUnderMinister } from './MemberUnderMinister.entity';
+import { MemberUnderMinister } from './memberUnderMinister.entity';
   
   export enum MaritalStatus {
     Married,
@@ -144,14 +144,14 @@ import { MemberUnderMinister } from './MemberUnderMinister.entity';
     const minister = await memberRepository.findOne({id: id}, { relations: ['members']})
     minister.members // returns members that are under this minister
      */
-    @OneToMany(() => MemberUnderMinister, (log) => log.minister)
+    @OneToMany(() => MemberUnderMinister, (flock) => flock.minister)
     members: MemberUnderMinister[];
 
     /*
     const member = await memberRepository.findOne({id: id}, { relations: ['ministers']})
     member.ministers // returns ministers the member is followed by
      */
-    @OneToMany(() => MemberUnderMinister, (log) => log.member)
+    @OneToMany(() => MemberUnderMinister, (flock) => flock.member)
     ministers: MemberUnderMinister[];
 
     /*

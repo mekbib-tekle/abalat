@@ -1,34 +1,33 @@
 import {
     Entity,
     Column,
-    ManyToOne
+    ManyToOne,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
   } from 'typeorm';
 import { Member } from './member.entity';
   
-  @Entity()
-  export class MemberUnderMinister {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @ManyToOne(() => Member, (minister) => minister.members) // source
-    minister: Member;
+@Entity()
+export class MemberUnderMinister {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ nullable: false })
-    ministerId: number;
+  @ManyToOne(() => Member, (minister) => minister.members) // source
+  minister: Member;
 
-    @ManyToOne(() => Member, (member) => member.ministers) // target
-    member: Member;
+  @Column({ nullable: false })
+  ministerId: number;
 
-    @Column({ nullable: false })
-    memberId: number;
-  
-    @CreateDateColumn()
-    created_at: Date;
-  
-    @UpdateDateColumn()
-    updated_at: Date;
-  }
-  
+  @ManyToOne(() => Member, (member) => member.ministers) // target
+  member: Member;
+
+  @Column({ nullable: false })
+  memberId: number;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+}
