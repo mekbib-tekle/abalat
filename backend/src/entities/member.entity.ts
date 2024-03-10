@@ -17,15 +17,15 @@ import { ContactLog } from './contactLog.entity';
 import { MemberUnderMinister } from './memberUnderMinister.entity';
   
   export enum MaritalStatus {
-    Married,
-    Single,
-    Divorced,
-    Widowed
+    Married = 'Married',
+    Single = 'Single',
+    Divorced = 'Divorced',
+    Widowed = 'Widowed',
   }
 
   export enum Gender {
-    Male,
-    Female,
+    Male = 'Male',
+    Female = 'Female',
   }
 
   @Entity()
@@ -38,7 +38,11 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     memberType: MemberType;
 
     @ManyToMany(() => Ministry, ministry => ministry.members)
-    @JoinTable({ name: 'member_ministries' })
+    @JoinTable({
+      name: 'member_ministries',
+      joinColumn: { name: "member_id" },
+      inverseJoinColumn: { name: "ministry_id" }
+    })
     ministries: Ministry[];
 
     @Column({

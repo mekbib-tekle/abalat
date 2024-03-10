@@ -2,6 +2,7 @@ import {
     Entity,
     Column,
     ManyToOne,
+    JoinColumn,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
@@ -14,17 +15,13 @@ import { Member } from './member.entity';
     id: number;
   
     @ManyToOne(() => Member, (minister) => minister.members) // source (member who contacts)
+    @JoinColumn({ name: 'minister_id' })
     minister: Member;
 
-    @Column({ nullable: false })
-    ministerId: number;
-
     @ManyToOne(() => Member, (member) => member.ministers) // target (member being contacted)
+    @JoinColumn({ name: 'member_id' })
     member: Member;
 
-    @Column({ nullable: false })
-    memberId: number;
-  
     @CreateDateColumn()
     created_at: Date;
   
