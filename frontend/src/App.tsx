@@ -1,7 +1,14 @@
 import Login from './Login';
+import CssThemeProvider from './theme/CssThemeProvider';
 
 function App() {
-  return <Login />;
+  return (
+  <CssThemeProvider>
+    <Login />
+  </CssThemeProvider>
+  );
 }
+
+
 
 export default App;
