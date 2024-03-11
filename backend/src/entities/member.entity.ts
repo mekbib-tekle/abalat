@@ -15,6 +15,7 @@ import { MemberType } from './memberType.entity';
 import { Ministry } from './ministry.entity';
 import { ContactLog } from './contactLog.entity';
 import { MemberUnderMinister } from './memberUnderMinister.entity';
+import { MemberMinistry } from './memberMinistry.entity';
   
   export enum MaritalStatus {
     Married = 'Married',
@@ -37,13 +38,8 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     @JoinColumn({ name: 'member_type_id' })
     memberType: MemberType;
 
-    @ManyToMany(() => Ministry, ministry => ministry.members)
-    @JoinTable({
-      name: 'member_ministries',
-      joinColumn: { name: "member_id" },
-      inverseJoinColumn: { name: "ministry_id" }
-    })
-    ministries: Ministry[];
+    @OneToMany(() => MemberMinistry, (memberMinistry) => memberMinistry.member)
+    ministries: MemberMinistry[];
 
     @Column({
       name: 'first_name',
@@ -155,8 +151,6 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
       const minister = await memberRepository.findOne({id: id}, { relations: ['members']})
       minister.members // returns members that are under this minister
     */
-    // @OneToMany(() => forwardRef(() => MemberUnderMinister), (flock) => flock.minister)
-    // @OneToMany('MemberUnderMinister', 'minister')
     @OneToMany(() => MemberUnderMinister, (flock) => flock.minister)
     members: MemberUnderMinister[];
 
@@ -164,8 +158,6 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     const member = await memberRepository.findOne({id: id}, { relations: ['ministers']})
     member.ministers // returns ministers the member is followed by
      */
-    // @OneToMany(() => forwardRef(() => MemberUnderMinister), (flock) => flock.member)
-    // @OneToMany('MemberUnderMinister', 'member')
     @OneToMany(() => MemberUnderMinister, (flock) => flock.member)
     ministers: MemberUnderMinister[];
 

@@ -2,9 +2,11 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
+    OneToMany,
     CreateDateColumn,
     UpdateDateColumn,
   } from 'typeorm';
+import { MemberMinistry } from './memberMinistry.entity';
   
   @Entity()
   export class Role {
@@ -24,6 +26,9 @@ import {
         default: true,
     })
     isVisible: boolean;
+
+    @OneToMany(() => MemberMinistry, (memberMinistry) => memberMinistry.role)
+    memberMinistries: MemberMinistry[];
 
     @CreateDateColumn()
     created_at: Date;

@@ -1,12 +1,12 @@
 import {
   Entity,
   Column,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Member } from './member.entity';
+import { MemberMinistry } from './memberMinistry.entity';
 
 @Entity()
 export class Ministry {
@@ -21,8 +21,8 @@ export class Ministry {
   })
   displayName: string;
 
-  @ManyToMany(() => Member, member => member.ministries)
-  members: Member[];
+  @OneToMany(() => MemberMinistry, (memberMinistry) => memberMinistry.ministry)
+  members: MemberMinistry[];
 
   @Column({
       name: 'is_active',
