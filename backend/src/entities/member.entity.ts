@@ -151,9 +151,12 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     isActive: boolean;
 
     /*
-    const minister = await memberRepository.findOne({id: id}, { relations: ['members']})
-    minister.members // returns members that are under this minister
-     */
+      // usage
+      const minister = await memberRepository.findOne({id: id}, { relations: ['members']})
+      minister.members // returns members that are under this minister
+    */
+    // @OneToMany(() => forwardRef(() => MemberUnderMinister), (flock) => flock.minister)
+    // @OneToMany('MemberUnderMinister', 'minister')
     @OneToMany(() => MemberUnderMinister, (flock) => flock.minister)
     members: MemberUnderMinister[];
 
@@ -161,6 +164,8 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     const member = await memberRepository.findOne({id: id}, { relations: ['ministers']})
     member.ministers // returns ministers the member is followed by
      */
+    // @OneToMany(() => forwardRef(() => MemberUnderMinister), (flock) => flock.member)
+    // @OneToMany('MemberUnderMinister', 'member')
     @OneToMany(() => MemberUnderMinister, (flock) => flock.member)
     ministers: MemberUnderMinister[];
 
