@@ -2,9 +2,11 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
+    OneToMany,
     CreateDateColumn,
     UpdateDateColumn,
   } from 'typeorm';
+import { Member } from './member.entity';
   
   @Entity()
   export class MemberType {
@@ -18,6 +20,9 @@ import {
       name: 'display_name',
     })
     displayName: string;
+
+    @OneToMany(() => Member, (member) => member.memberType)
+    members: Member[];
   
     @CreateDateColumn()
     created_at: Date;

@@ -1,7 +1,7 @@
 import {
     Entity,
     Column,
-    OneToOne,
+    ManyToOne,
     OneToMany,
     ManyToMany,
     JoinColumn,
@@ -33,7 +33,7 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     @PrimaryGeneratedColumn()
     id: number;
   
-    @OneToOne(() => MemberType)
+    @ManyToOne(() => MemberType, (memberType) => memberType.members)
     @JoinColumn({ name: 'member_type_id' })
     memberType: MemberType;
 
@@ -64,7 +64,7 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     @Column({
       name: 'phone_number',
     })
-    phoneNmber: string;
+    phoneNumber: string;
 
     @Column({ nullable: true })
     email: string;
@@ -173,11 +173,11 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     contactingMinisters: ContactLog[];
 
     @CreateDateColumn()
-    created: Date;
+    created_at: Date;
   
     @UpdateDateColumn()
-    modified: Date;
+    updated_at: Date;
 
     @DeleteDateColumn()
-    deleted: Date;
+    deleted_at: Date;
   }
