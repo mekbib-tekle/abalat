@@ -62,6 +62,12 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
     lastName: string;
   
     @Column({
+      unique: true,
+      nullable: false,
+    })
+    username: string;
+
+    @Column({
       name: 'phone_number',
     })
     phoneNumber: string;
@@ -180,4 +186,11 @@ import { MemberUnderMinister } from './memberUnderMinister.entity';
 
     @DeleteDateColumn()
     deleted_at: Date;
+
+    // util for returning user without password
+    // TODO: separate password from user entity
+    withNoPassword() {
+      const { password: _, ...rest } = this;
+      return rest;
+    }
   }

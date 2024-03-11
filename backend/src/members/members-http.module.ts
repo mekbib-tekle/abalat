@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MembersService } from './members.service';
-import { MembersController } from './members.controller';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from '../entities/member.entity';
+import { MembersController } from './members.controller';
+import { MembersService } from './members.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member])],
-  providers: [MembersService],
+  providers: [MembersService, JwtService, ConfigService],
   controllers: [MembersController],
 })
 export class MemberHttpModule {}

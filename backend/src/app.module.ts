@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import configuration, { DatabaseConfig } from './config/configuration';
 import { MemberHttpModule } from './members/members-http.module';
 import entities from './entities';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import entities from './entities';
 
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
