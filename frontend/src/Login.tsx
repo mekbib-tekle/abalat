@@ -10,11 +10,12 @@ import {
   Typography,
   Container,
   Button,
+  FormHelperText,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from './includes/Copyright';
 import useFetch from 'use-http';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Auth } from './types';
 
 type Props = {
@@ -23,16 +24,20 @@ type Props = {
 
 export default function Login({ setAuthToken } : Props) {
 
-  const { post } = useFetch('http://localhost:8000/auth/login')
+  const { post, response, error } = useFetch('http://localhost:8000/auth/login')
   const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const token = await post({
       username: data.get('username'),
       password: data.get('password'),
-    })
+    });
     setAuthToken(token);
-  }, [setAuthToken, post]);
+  }, [post, setAuthToken]);
+
+  const invalidLogin = useMemo(() => {
+    return (error || (response && (response.status === 500 || response.status === 401)));
+  }, [response, error]);
 
   return (
       <Container component="main" maxWidth="xs">
@@ -52,6 +57,9 @@ export default function Login({ setAuthToken } : Props) {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          {invalidLogin && (
+          <FormHelperText error={true}>Login Error! Please  try again</FormHelperText>
+          )}
             <TextField
               margin="normal"
               required
