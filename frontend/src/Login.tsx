@@ -14,22 +14,20 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from './includes/Copyright';
 import useFetch from 'use-http';
+import { useCallback, useState } from 'react';
 
 export default function Login() {
-  const { post, loading, error } = useFetch('http://localhost:8000/auth/login')
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const [authToken, setAuthtoken] = useState({});
+  const { post } = useFetch('http://localhost:8000/auth/login')
+  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
     const token = await post({
       username: data.get('username'),
       password: data.get('password'),
     })
-    console.log(token);
-  };
+    setAuthtoken(token);
+  }, [setAuthtoken, post]);
 
   return (
       <Container component="main" maxWidth="xs">
