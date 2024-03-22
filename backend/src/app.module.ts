@@ -8,10 +8,12 @@ import configuration, { DatabaseConfig } from './config/configuration';
 import { MemberHttpModule } from './members/members-http.module';
 import entities from './entities';
 import { AuthModule } from './auth/auth.module';
+import { SeederService } from './seed/seeder.service';
 
 @Module({
   imports: [
     MemberHttpModule,
+    // TypeOrmModule.forFeature([Member]),
     TypeOrmModule.forRootAsync({
       imports: [
         ConfigModule.forRoot({
@@ -32,6 +34,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeederService],
 })
 export class AppModule {}

@@ -87,7 +87,7 @@ import { MemberMinistry } from './memberMinistry.entity';
     roleInPreviousChurch: string;
 
     @Column({ name: 'is_baptised' })
-    isBaptised: string;
+    isBaptised: boolean;
 
     @Column({
       name: 'spouse_name',
