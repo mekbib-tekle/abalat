@@ -29,7 +29,7 @@ const Home = () => {
           setError(null);
     
           try {
-            const response = await fetch('http://localhost:8000/members/1', {
+            const response = await fetch('http://localhost:8000/auth/profile', {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                 },

@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { MembersService } from '../members/members.service';
 
 type SignIn = {
   username: string;
@@ -18,7 +19,10 @@ type SignIn = {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private readonly memberService: MembersService
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -28,7 +32,9 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req: any) {
-    return req.user;
+  async getProfile(@Request() req: any) {
+    const username = req.user?.username;
+    const member = await this.memberService.findOneByUsername(username);
+    return member;
   }
 }
