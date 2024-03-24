@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   mysql:
+    container_name: database
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -11,7 +12,8 @@ services:
     ports:
       - "3306:3306"
 
-  nest:
+  backend:
+    container_name: backend
     build: ./backend
     environment:
       NODE_ENV: development # Set to production for production build
@@ -25,11 +27,12 @@ services:
       - mysql
 
   frontend:
+    container_name: frontend
     build: ./frontend # Builds the React app from the frontend directory
     ports:
       - "3000:3000" # Maps port 3000 of the container to port 3000 of the host
     depends_on:
-      - nest
+      - backend
     volumes:
       - ./frontend:/app
     environment:
