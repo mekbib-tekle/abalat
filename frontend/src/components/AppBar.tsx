@@ -25,6 +25,25 @@ function AppAppBar() {
     setOpen(newOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      // TODO change this endpoint to /logout
+      const response = await fetch('http://localhost:8000/auth/profile', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+      const data = await response.json();
+
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      // setError(error);
+    }
+
+  }
+
   return (
     <div>
       <AppBar
@@ -80,6 +99,14 @@ function AppAppBar() {
                     Ministries
                   </Typography>
                 </MenuItem>
+                <MenuItem
+                  onClick={handleLogout}
+                  sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }}
+                >
+                  <Typography color="text.primary">
+                    Logout
+                  </Typography>
+                </MenuItem>
               </Box>
             </Box>
             <Box
@@ -123,6 +150,10 @@ function AppAppBar() {
                   </MenuItem>
                   <MenuItem onClick={() => navigate('/ministries')}>
                     Ministries
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem onClick={handleLogout}>
+                    Logout
                   </MenuItem>
                 </Box>
               </Drawer>
