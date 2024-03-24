@@ -24,13 +24,12 @@ function AppAppBar() {
 
   const handleLogout = async () => {
     try {
-      // TODO change this endpoint to /logout
-      const response = await fetch('http://localhost:8000/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        });
-      const data = await response.json();
+      // TODO change this endpoint to /logout, handle response
+      await fetch('http://localhost:8000/auth/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
 
       localStorage.removeItem('authToken');
       window.location.href = '/';

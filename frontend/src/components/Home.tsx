@@ -58,10 +58,8 @@ const Home = () => {
         middleName,
         lastName,
         email,
-        image_url,
         username,
         phoneNumber,
-        gender,
         created_at,
     }: User = user;
       

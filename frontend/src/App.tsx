@@ -8,9 +8,6 @@ import Ministries from './components/Ministries';
 import NotFound from './components/NotFound';
 import AppBar from './components/AppBar';
 
-
-
-
 function App() {
   const [authToken, setAuthToken] = useState<Auth>();
   return (
@@ -30,7 +27,5 @@ function App() {
 
   );
 }
-
-
 
 export default App;

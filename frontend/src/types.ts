@@ -1,3 +1,3 @@
 export type Auth = {
-    access_token: string;
-  }
+  access_token: string;
+}
