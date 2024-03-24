@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -13,8 +12,6 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { Outlet } from "react-router-dom";
-import CssBaseline from '@mui/material/CssBaseline';
-
 
 function AppAppBar() {
   const navigate = useNavigate();
