@@ -16,6 +16,13 @@ export class MembersController {
   constructor(private readonly memberService: MembersService) {}
 
   @UseGuards(AuthGuard)
+  @Get()
+  async getMembers(): Promise<GetMember[]> {
+    const memebers = await this.memberService.findAll();
+    return memebers.map((getMember) => this.memberService.mapMemeberToMemberDto({ memeber: getMember }));
+  }
+
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getMember(
     @Param('id', new ParseIntPipe()) id: number,
