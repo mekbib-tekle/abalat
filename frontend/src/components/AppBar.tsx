@@ -36,7 +36,7 @@ function AppAppBar() {
       const data = await response.json();
 
       localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      window.location.href = '/';
     } catch (error) {
       console.error('Error fetching users:', error);
       // setError(error);
