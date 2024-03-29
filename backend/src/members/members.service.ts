@@ -11,8 +11,8 @@ export class MembersService {
     private membersRepository: Repository<Member>,
   ) {}
 
-  findAll(): Promise<Member[]> {
-    return this.membersRepository.find();
+  async findAll(): Promise<Member[]> {
+    return await this.membersRepository.find();
   }
 
   async create(member: PostMember): Promise<GetMember> {
@@ -44,6 +44,11 @@ export class MembersService {
   private static async passwordHash(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
+  }
+
+  mapMemberToMemberDto(member: Member): GetMember {
+    const { password, ...memberWithoutPassword } = member;
+    return memberWithoutPassword;
   }
 }
 
