@@ -10,35 +10,25 @@ type Props = {
 }
 
 const AuthProvider = ({ authToken, setAuthToken, children }: Props) => {
-  function isTokenExpired(token: string) {
+  function isValidToken(token: string|null) {
+    if (!token) return false;
+
     try {
       const decodedToken: any = jwtDecode(token);
 
       if (decodedToken && decodedToken.exp) {
-        return decodedToken.exp < Date.now() / 1000;
+        return decodedToken.exp > Date.now() / 1000;
       }
     } catch (error) {
       console.error('Error decoding JWT token:', error);
-      return true;
+      return false;
     }
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-
-    if (token && !isTokenExpired(token)) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-      // Handle expired token (e.g., redirect to login)
-    }
-  }, []);
-
+  const token = localStorage.getItem('authToken');
 
   if(!authToken || !authToken.access_token) {
-    if (!isLoggedIn) {
+    if (!isValidToken(token)) {
       return <Login setAuthToken={setAuthToken}/>
     }
   }

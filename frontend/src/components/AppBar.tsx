@@ -1,19 +1,19 @@
 import * as React from 'react';
-
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Button,
+  Container,
+  Divider,
+  Typography,
+  MenuItem,
+  Drawer,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
-import { Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from 'react-router-dom';
 
-function AppAppBar() {
+function NavBar() {
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -36,6 +36,7 @@ function AppAppBar() {
     } catch (error) {
       console.error('Error fetching users:', error);
       // setError(error);
+      localStorage.removeItem('authToken');
     }
 
   }
@@ -165,4 +166,4 @@ function AppAppBar() {
 
 
 
-export default AppAppBar;
+export default NavBar;

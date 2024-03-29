@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Avatar, Grid, Typography, List, ListItem, ListItemText, ListItemIcon,  } from '@mui/material';
-import Container from '@mui/material/Container';
+import { Avatar, Grid, Typography, List, ListItem, ListItemText, ListItemIcon, Container } from '@mui/material';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import DateRangeIcon from '@mui/icons-material/DateRange';
+import useFetch from 'use-http'
 
 interface User {
     id: number;
@@ -19,39 +18,17 @@ interface User {
 }
   
 const Home = () => {
-    const [user, setuser] = useState<User>();
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+    const { loading, error, data: user } = useFetch('http://localhost:8000/auth/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      }, [])
 
-    useEffect(() => {
-        const fetchuser = async () => {
-          setIsLoading(true);
-          setError(null);
-    
-          try {
-            const response = await fetch('http://localhost:8000/auth/profile', {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-                },
-              });
-            const data = await response.json();
-            setuser(data);
-          } catch (error) {
-            console.error('Error fetching users:', error);
-            // setError(error);
-          } finally {
-            setIsLoading(false);
-          }
-        };
-    
-        fetchuser();
-      }, []);
-    
-    if (!user && !isLoading) return (<p>No user found.</p>);
+    if (loading) return (<p>Loading user...</p>);
 
-    if (isLoading) return (<p>Loading user...</p>);
+    if (error) return (<p>Error: {error.message}.</p>);
 
-    if (!user) return (<p>No user found.</p>);
+    if (!user && !loading) return (<p>No user found.</p>);
 
     const {
         firstName,
@@ -60,6 +37,7 @@ const Home = () => {
         email,
         username,
         phoneNumber,
+        image_url,
         created_at,
     }: User = user;
       
@@ -72,40 +50,36 @@ const Home = () => {
 
     return (
         <Container maxWidth="lg">
-            {isLoading && <p>Loading user...</p>}
-            {error && <p>Error: {error.message}</p>}
-            {user && (
-                <Grid container spacing={2}>
-                    <Grid item xs={4} sm={2}>
-                        <Avatar sx={{ width: 100, height: 100 }}>{firstName && firstName.charAt(0)}</Avatar> {/* Placeholder avatar */}
-                        {user.image_url && <Avatar alt={fullName} src={user.image_url} sx={{ width: 100, height: 100, mt: 2 }} />} {/* Use image_url if available */}
-                    </Grid>
-                    <Grid item xs={8} sm={10}>
-                        <Typography variant="h6">{fullName}</Typography>
-                        <Typography variant="body2" color="text.secondary">{username}</Typography>
-                        <List dense>
-                            <ListItem>
-                                <ListItemIcon>
-                                    <AlternateEmailIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Email" secondary={email} />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemIcon>
-                                    <ContactPhoneIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Phone Number" secondary={phoneNumber} />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemIcon>
-                                    <DateRangeIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Member Since" secondary={formattedDate} />
-                            </ListItem>
-                        </List>
-                    </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={4} sm={2}>
+                    <Avatar sx={{ width: 100, height: 100 }}>{firstName && firstName.charAt(0)}</Avatar> {/* Placeholder avatar */}
+                    {image_url && <Avatar alt={fullName} src={image_url} sx={{ width: 100, height: 100, mt: 2 }} />} {/* Use image_url if available */}
                 </Grid>
-            )}
+                <Grid item xs={8} sm={10}>
+                    <Typography variant="h6">{fullName}</Typography>
+                    <Typography variant="body2" color="text.secondary">{username}</Typography>
+                    <List dense>
+                        <ListItem>
+                            <ListItemIcon>
+                                <AlternateEmailIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Email" secondary={email} />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemIcon>
+                                <ContactPhoneIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Phone Number" secondary={phoneNumber} />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemIcon>
+                                <DateRangeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Member Since" secondary={formattedDate} />
+                        </ListItem>
+                    </List>
+                </Grid>
+            </Grid>
         </Container>
     );
   };
