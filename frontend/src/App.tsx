@@ -6,7 +6,7 @@ import { Auth } from './types';
 import Home from './components/Home';
 import Ministries from './components/Ministries';
 import NotFound from './components/NotFound';
-import AppBar from './components/AppBar';
+import NavBar from './components/NavBar';
 
 function App() {
   const [authToken, setAuthToken] = useState<Auth>();
@@ -14,12 +14,11 @@ function App() {
         <CssThemeProvider>
           <AuthProvider authToken={authToken} setAuthToken={setAuthToken}>
             <BrowserRouter>
+              <NavBar />
               <Routes>
-                <Route path="/" element={<AppBar />}>
-                  <Route index element={<Home />} />
-                  <Route path="ministries" element={<Ministries />} />
-                  <Route path="*" element={<NotFound />} />
-                </Route>
+                <Route index element={<Home />} />
+                <Route path="ministries" element={<Ministries />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </AuthProvider>

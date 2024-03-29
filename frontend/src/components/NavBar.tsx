@@ -158,8 +158,6 @@ function NavBar() {
           </Toolbar>
         </Container>
       </AppBar>
-
-      <Outlet />
     </div>
   );
 }

@@ -24,11 +24,11 @@ const Home = () => {
         },
       }, [])
 
-    if (loading) return (<p>Loading user...</p>);
+    if (loading) return (<Container>Loading user...</Container>);
 
-    if (error) return (<p>Error: {error.message}.</p>);
+    if (error) return (<Container>Error: {error.message}.</Container>);
 
-    if (!user && !loading) return (<p>No user found.</p>);
+    if (!user && !loading) return (<Container>No user found.</Container>);
 
     const {
         firstName,
