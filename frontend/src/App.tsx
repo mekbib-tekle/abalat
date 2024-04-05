@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Ministries from './components/Ministries';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
+import FollowUp from './components/FollowUp';
 
 function App() {
   const [authToken, setAuthToken] = useState<Auth>();
@@ -17,6 +18,7 @@ function App() {
               <NavBar />
               <Routes>
                 <Route index element={<Home />} />
+                <Route path="follow-up" element={<FollowUp />} />
                 <Route path="ministries" element={<Ministries />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

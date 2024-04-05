@@ -11,7 +11,7 @@ import {
   Drawer,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -80,26 +80,22 @@ function NavBar() {
               </Typography>
               
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <MenuItem
-                  onClick={() => navigate('/')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => navigate('/')} sx={{ py: '6px', px: '12px' }} >
                   <Typography color="text.primary">
                     Home
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={() => navigate('/ministries')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => navigate('/follow-up')} sx={{ py: '6px', px: '12px' }} >
+                  <Typography color="text.primary">
+                    Follow ups
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/ministries')} sx={{ py: '6px', px: '12px' }} >
                   <Typography color="text.primary">
                     Ministries
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={handleLogout}
-                  sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }}
-                >
+                <MenuItem onClick={handleLogout} sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }} >
                   <Typography color="text.primary">
                     Logout
                   </Typography>
@@ -144,6 +140,9 @@ function NavBar() {
                   </Box>
                   <MenuItem onClick={() => navigate('/')}>
                     Home
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/follow-up')}>
+                    Members
                   </MenuItem>
                   <MenuItem onClick={() => navigate('/ministries')}>
                     Ministries

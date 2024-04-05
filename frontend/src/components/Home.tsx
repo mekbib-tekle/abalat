@@ -3,20 +3,8 @@ import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import useFetch from 'use-http'
+import { Member } from '../types/Member';
 
-interface User {
-    id: number;
-    username: string;
-    email: string;
-    image_url: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    phoneNumber: string;
-    gender: string;
-    created_at: string;
-}
-  
 const Home = () => {
     const { loading, error, data: user } = useFetch('http://localhost:8000/auth/profile', {
         headers: {
@@ -39,7 +27,7 @@ const Home = () => {
         phoneNumber,
         image_url,
         created_at,
-    }: User = user;
+    }: Member = user;
       
     const fullName = `${firstName} ${middleName ? middleName + ' ' : ''} ${lastName}`;
     const formattedDate = new Date(created_at).toLocaleDateString('en-US', {
