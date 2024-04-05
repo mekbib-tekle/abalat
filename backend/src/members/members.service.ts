@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, createQueryBuilder } from 'typeorm';
 import { Member } from '../entities/member.entity';
 import * as bcrypt from 'bcrypt';
 
@@ -11,8 +11,32 @@ export class MembersService {
     private membersRepository: Repository<Member>,
   ) {}
 
+
+  // get all elders
+  // get all members under each elder
+  // for each member find their last contacted date & their member type
+  // TODO select specific fields using .addSelect
   async findAll(): Promise<Member[]> {
-    return await this.membersRepository.find();
+    // TODO replace ministryId with dynamic value
+    const ministryId = 1;
+
+    const queryBuilder = this.membersRepository.createQueryBuilder('member');
+
+    queryBuilder.leftJoinAndSelect('member.memberType', 'memberType');
+    queryBuilder.leftJoinAndSelect('member.ministries', 'memberMinistry');
+    queryBuilder.leftJoinAndSelect('member.members', 'membersUnderMinister');
+    queryBuilder.leftJoinAndSelect('membersUnderMinister.member', 'memberUM');
+    queryBuilder.leftJoinAndSelect('memberUM.memberType', 'memberUMT');
+
+    // how long ago this minister contacted the member under his care
+    queryBuilder.leftJoinAndSelect('memberUM.contactingMinisters', 'contactLog', 'contactLog.minister_id = member.id');
+
+    // how long ago a member was contacted regardless of the minister under whose care he/she is
+    // queryBuilder.leftJoinAndSelect('memberUM.contactingMinisters', 'contactLog', 'contactLog.member_id = memberUM.id');
+
+    queryBuilder.where('memberMinistry.ministry_id = :ministryId', { ministryId });
+
+    return await queryBuilder.getMany();
   }
 
   async create(member: PostMember): Promise<GetMember> {
