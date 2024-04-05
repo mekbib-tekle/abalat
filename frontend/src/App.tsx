@@ -7,11 +7,13 @@ import Home from './components/Home';
 import Ministries from './components/Ministries';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
+import { Provider as FetchProvider } from 'use-http';
 
 function App() {
   const [authToken, setAuthToken] = useState<Auth>();
   return (
         <CssThemeProvider>
+          <FetchProvider>
           <AuthProvider authToken={authToken} setAuthToken={setAuthToken}>
             <BrowserRouter>
               <NavBar />
@@ -22,6 +24,7 @@ function App() {
               </Routes>
             </BrowserRouter>
           </AuthProvider>
+          </FetchProvider>
         </CssThemeProvider>
 
   );
