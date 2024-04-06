@@ -4,21 +4,16 @@ import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import { Member } from '../types/Member';
 import { useEffect, useState } from 'react';
+import { get } from '../utils/api';
 
 const Home = () => {
-
     const [user, setUser] = useState<Member>();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('http://localhost:8000/auth/profile', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-                },
-            });
-            const data = await response.json();
-            setUser(data);
+            const response = await get('auth/profile');
+            setUser(response);
             setLoading(false);
         };
 

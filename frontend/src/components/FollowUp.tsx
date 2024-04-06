@@ -1,8 +1,10 @@
 import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
-import { MinisterResponse, Member, MemberObj, Minister} from '../types/Member';
+import { MinisterResponse, Member, MemberObj, Minister, MemberType} from '../types/Member';
 import MembersUnderMinister from './MembersUnderMinister';
 import { getWeekMap } from '../utils/date';
+import { get } from '../utils/api';
+import { Grid, Typography } from '@mui/material';
 
 // convert the data from the server to a more structured format
 const mapResponse = (data: MinisterResponse[]): Minister[] => {
@@ -52,17 +54,11 @@ const mapResponse = (data: MinisterResponse[]): Minister[] => {
 const FollowUp = () => {
     const [ministers, setMinisters] = useState<Minister[]>();
     const [loading, setLoading] = useState(false);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/members', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-                    },
-                });
-                const data = await response.json();
-                setMinisters(mapResponse(data));
+                const response = await get('members');
+                setMinisters(mapResponse(response));
                 setLoading(false);
             } catch (error) {
                 setMinisters([]);
@@ -79,16 +75,22 @@ const FollowUp = () => {
     return (
         <Container>
             <h1>Follow up</h1>
-            {ministers && ministers.map((minister) => {
-                return (
-                    <div key={minister.id}>
-                        <p>{minister.firstName} {minister.middleName} {minister.lastName}</p>
-                        <MembersUnderMinister members={minister.members} />
-                    </div>
-                );
-            })}
+            <Grid container spacing={2}>
+                {ministers && ministers.map((minister) => {
+                    return (
+                        <Container key={minister.id}>
+                            <Typography fontWeight="bold" color="primary" style={{ marginBottom: '20px',  marginTop: '40px' }}>
+                                {minister.firstName} {minister.middleName} {minister.lastName}
+                            </Typography>
+                            <MembersUnderMinister members={minister.members} />
+                        </Container>
+                    );
+                })}
+            </Grid>
         </Container>
     );
   };
   
   export default FollowUp;
+
+

@@ -1,4 +1,4 @@
-interface MemberType {
+export interface MemberType {
     name: string;
     displayName?: string;
 }

@@ -1,5 +1,4 @@
-import Container from '@mui/material/Container';
-import { Grid, Typography } from '@mui/material/';
+import { Grid, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material/';
 
 import { Member } from '../types/Member';
 
@@ -8,30 +7,25 @@ interface MembersUnderMinisterProps {
 }
   
 const MembersUnderMinister: React.FC<MembersUnderMinisterProps> = ({ members }) => {
+    const memberTypes: string[] = ['member','regular','visitor','remote' ]; // fetch from server
+
     return (
-        <Container>
-            {members && members.map(member => {
-                return (
-                    <Grid container spacing={2}  key={member.id}>
-                        <Grid item xs={4}>
-                            <Typography variant="body2">
-                                {member.firstName} {member.middleName}  {member.lastName}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant="body2">
-                                {member.memberType}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant="body2">
-                                {member.latestContact}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                )
-            })}
-        </Container>
+        <Grid container spacing={2}>
+            {memberTypes.map((type) => (
+                <Grid item xs={3} key={type}>
+                    <Typography fontWeight="bold">{type}</Typography>
+                    <Table className="table table-bordered">
+                        <TableBody>
+                            {members && members.filter((member) => member.memberType === type).map((member) => (
+                                <TableRow key={member.firstName}>
+                                    <TableCell>{member.firstName}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Grid>
+            ))}
+        </Grid>
     );
 };
   
