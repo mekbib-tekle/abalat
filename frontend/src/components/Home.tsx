@@ -2,21 +2,32 @@ import { Avatar, Grid, Typography, List, ListItem, ListItemText, ListItemIcon, C
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import useFetch from 'use-http'
 import { Member } from '../types/Member';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
-    const { loading, error, data: user } = useFetch('http://localhost:8000/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      }, [])
+
+    const [user, setUser] = useState<Member>();
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch('http://localhost:8000/auth/profile', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+                },
+            });
+            const data = await response.json();
+            setUser(data);
+            setLoading(false);
+        };
+
+        fetchData();
+    }, []);
 
     if (loading) return (<Container>Loading user...</Container>);
 
-    if (error) return (<Container>Error: {error.message}.</Container>);
-
-    if (!user && !loading) return (<Container>No user found.</Container>);
+    if (!user) return (<Container>No user found.</Container>);
 
     const {
         firstName,
