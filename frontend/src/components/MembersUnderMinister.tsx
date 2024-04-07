@@ -18,7 +18,7 @@ const MembersUnderMinister: React.FC<MembersUnderMinisterProps> = ({ members }) 
                         <TableBody>
                             {members && members.filter((member) => member.memberType === type).map((member) => (
                                 <TableRow key={member.firstName}>
-                                    <TableCell>{member.firstName}</TableCell>
+                                    <TableCell>{member.firstName} {member.middleName} {member.lastName}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
