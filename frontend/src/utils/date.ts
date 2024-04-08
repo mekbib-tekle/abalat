@@ -1,3 +1,12 @@
+export const WeekFrame: Record<string, string> = {
+  thisWeek: "This week",
+  lastWeek: "Last week",
+  twoWeeksAgo: "2 weeks ago",
+  threeWeeksAgo: "3 weeks ago",
+  fourWeeksAgo: "4 weeks ago",
+  overFourWeeksAgo: "> 4 weeks ago",
+}
+
 export const getWeekMap = (dateStr: string): string => {
     const date = new Date(dateStr);
 
@@ -15,13 +24,13 @@ export const getWeekMap = (dateStr: string): string => {
   
     let mapping: string;
     if (weeksAgo === 0) {
-      mapping = "this week";
+      mapping = WeekFrame.thisWeek;
     } else if (weeksAgo === 1) {
-      mapping = "last week";
+      mapping = WeekFrame.lastWeek;
     } else if (weeksAgo <= 4) {
       mapping = `${weeksAgo} weeks ago`;
     } else {
-      mapping = "> 4 weeks ago";
+      mapping = WeekFrame.overFourWeeksAgo;
     }
   
     return mapping;

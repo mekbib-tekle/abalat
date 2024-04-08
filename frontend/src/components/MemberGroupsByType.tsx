@@ -2,8 +2,9 @@ import { Container, Grid, Typography } from '@mui/material/';
 
 import { Member } from '../types/Member';
 
-interface MembersUnderMinisterProps {
+interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
+    weekFrame: string;
 }
 
 const printMember = (member: Member) => {
@@ -16,10 +17,16 @@ const printMember = (member: Member) => {
     );
 }
   
-const MembersUnderMinister: React.FC<MembersUnderMinisterProps> = ({ members }) => {
+const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFrame }) => {
     const memberTypes: string[] = ['member','regular','visitor','remote' ]; // fetch from server
 
-    if (!members) return (<Container>No members</Container>)
+    if (!members) {
+        return (
+            <Grid className="member-grid">
+                <Grid className="member-cell">No members contacted {weekFrame}</Grid>
+            </Grid>
+        )
+    }
 
     const groupedMembers = members.reduce((acc: { [key: string]: Member[] }, member: Member) => {
         if (!acc[member.memberType]) {
@@ -36,9 +43,6 @@ const MembersUnderMinister: React.FC<MembersUnderMinisterProps> = ({ members }) 
         <Grid container spacing={3}>
             {memberTypes.map((memberType) => (
                 <Grid item xs={12} sm={6} md={3} key={memberType} className="member-grid">
-                    <Typography fontWeight="bold">
-                        {memberType[0].toUpperCase() + memberType.slice(1)}
-                    </Typography>
                     {[...Array(maxRows)].map((_, index) => (
                         <div key={index} className="member-cell">
                             {groupedMembers[memberType] && groupedMembers[memberType][index] &&
@@ -51,4 +55,4 @@ const MembersUnderMinister: React.FC<MembersUnderMinisterProps> = ({ members }) 
     );
 };
   
-export default MembersUnderMinister;
+export default MemberGroupsByType;
