@@ -36,7 +36,9 @@ const MembersUnderMinister: React.FC<MembersUnderMinisterProps> = ({ members }) 
         <Grid container spacing={3}>
             {memberTypes.map((memberType) => (
                 <Grid item xs={12} sm={6} md={3} key={memberType} className="member-grid">
-                    <Typography fontWeight="bold">{memberType.toUpperCase()}</Typography>
+                    <Typography fontWeight="bold">
+                        {memberType[0].toUpperCase() + memberType.slice(1)}
+                    </Typography>
                     {[...Array(maxRows)].map((_, index) => (
                         <div key={index} className="member-cell">
                             {groupedMembers[memberType] && groupedMembers[memberType][index] &&

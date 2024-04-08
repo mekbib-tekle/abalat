@@ -79,7 +79,7 @@ const FollowUp = () => {
                 {ministers && ministers.map((minister) => {
                     return (
                         <Container key={minister.id}>
-                            <Typography fontWeight="bold" color="primary" style={{ marginBottom: '20px',  marginTop: '40px' }}>
+                            <Typography fontWeight="bold" color="primary" style={{ marginBottom: '15x',  marginTop: '40px' }}>
                                 {minister.firstName} {minister.middleName} {minister.lastName}
                             </Typography>
                             <MembersUnderMinister members={minister.members} />

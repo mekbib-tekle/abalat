@@ -5,8 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #333 !important;
-  color: aliceblue !important;
 }
 
 code {
@@ -23,4 +21,9 @@ code {
 
 .member-grid > .member-cell:last-child{
   border-bottom: 1px solid #ccc;
+}
+
+/* Styles to apply to all except the first one */
+.member-grid ~ .member-grid {
+  padding-left: 5px!important;
 }
