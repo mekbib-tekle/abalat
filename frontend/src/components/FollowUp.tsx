@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
-import { MinisterResponse, Member, MemberObj, Minister, MemberType} from '../types/Member';
+import { MinisterResponse, Member, MemberObj, Minister } from '../types/Member';
 import MembersUnderMinister from './MembersUnderMinister';
 import { getWeekMap } from '../utils/date';
 import { get } from '../utils/api';
