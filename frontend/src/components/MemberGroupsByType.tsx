@@ -1,24 +1,23 @@
-import { Container, Grid, Typography } from '@mui/material/';
+import { Grid, Typography } from '@mui/material/';
 
 import { Member } from '../types/Member';
+import { useState } from 'react';
+import MemberModal from './MemberModal';
 
 interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
     weekFrame: string;
 }
-
-const printMember = (member: Member) => {
-    const { firstName, middleName, lastName } = member;
-
-    return (
-        <Typography>
-            {firstName} {middleName} {lastName}
-        </Typography>
-    );
-}
   
 const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFrame }) => {
     const memberTypes: string[] = ['member','regular','visitor','remote' ]; // fetch from server
+    const [showModal, setShowModal] = useState(false);
+    const [selectedMember, setSelectedMember] = useState<Member>();
+
+    const handleClick = (member: Member) => {
+      setSelectedMember(member);
+      setShowModal(true);
+    };
 
     if (!members) {
         return (
@@ -36,6 +35,16 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
         return acc;
     }, {});
 
+    const printMember = (member: Member) => {
+        const { firstName, middleName, lastName } = member;
+
+        return (
+            <Typography onClick={() => handleClick(member)} style={{ cursor: 'pointer' }}>
+                {firstName} {middleName} {lastName}
+            </Typography>
+        );
+    }
+
     // Calculate the maximum number of rows for any member type
     const maxRows = Math.max(...Object.values(groupedMembers).map((members) => members.length));
 
@@ -51,6 +60,8 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
                     ))}
                 </Grid>
             ))}
+
+            {showModal && selectedMember && <MemberModal member={selectedMember} onClose={() => setShowModal(false)} />}
         </Grid>
     );
 };

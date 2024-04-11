@@ -29,6 +29,7 @@ const mapResponse = (data: MinisterResponse[]): Minister[] => {
                 lastName: memberData.lastName,
                 phoneNumber: memberData.phoneNumber,
                 email: memberData.email,
+                address: memberData.address,
                 memberType,
                 latestContact: getWeekMap(latestContact),
                 created_at: memberData.created_at,
@@ -41,6 +42,7 @@ const mapResponse = (data: MinisterResponse[]): Minister[] => {
             middleName: minister.middleName,
             phoneNumber: minister.phoneNumber,
             email: minister.email,
+            address: minister.address,
             lastName: minister.lastName,
             members: membersUnderMinister
         }

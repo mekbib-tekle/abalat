@@ -19,6 +19,7 @@ export interface BaseMember {
     lastName: string;
     middleName: string;
     phoneNumber: string;
+    address: string;
     username?: string;
     email: string;
     image_url?: string;
