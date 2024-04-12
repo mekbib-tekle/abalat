@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material/';
+import { TableBody, TableCell, TableRow } from '@mui/material/';
 
 import { Member } from '../types/Member';
 import { useState } from 'react';
@@ -21,9 +21,9 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
 
     if (!members) {
         return (
-            <Grid className="member-grid">
-                <Grid className="member-cell">No members contacted {weekFrame}</Grid>
-            </Grid>
+            <TableRow>
+                <TableCell colSpan={4}>No members contacted {weekFrame}</TableCell>
+            </TableRow>
         )
     }
 
@@ -39,9 +39,9 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
         const { firstName, middleName, lastName } = member;
 
         return (
-            <Typography onClick={() => handleClick(member)} style={{ cursor: 'pointer' }}>
+            <div onClick={() => handleClick(member)} style={{ cursor: 'pointer' }}>
                 {firstName} {middleName} {lastName}
-            </Typography>
+            </div>
         );
     }
 
@@ -49,20 +49,21 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
     const maxRows = Math.max(...Object.values(groupedMembers).map((members) => members.length));
 
     return (
-        <Grid container spacing={3}>
-            {memberTypes.map((memberType) => (
-                <Grid item xs={12} sm={6} md={3} key={memberType} className="member-grid">
-                    {[...Array(maxRows)].map((_, index) => (
-                        <div key={index} className="member-cell">
-                            {groupedMembers[memberType] && groupedMembers[memberType][index] &&
-                                printMember(groupedMembers[memberType][index])}
-                        </div>
-                    ))}
-                </Grid>
-            ))}
-
+        <TableBody>
+            <TableRow>
+                {memberTypes.map((memberType) => (
+                    <>
+                        {[...Array(maxRows)].map((_, index) => (
+                            <TableCell key={index} className={`member-cell ${memberType}-type-cell`}>
+                                {groupedMembers[memberType] && groupedMembers[memberType][index] &&
+                                    printMember(groupedMembers[memberType][index])}
+                            </TableCell>
+                        ))}
+                    </>
+                ))}
+            </TableRow>
             {showModal && selectedMember && <MemberModal member={selectedMember} onClose={() => setShowModal(false)} />}
-        </Grid>
+        </TableBody>
     );
 };
   

@@ -12,29 +12,32 @@ code {
     monospace;
 }
 
+.minister-header {
+  margin-bottom: 15px;
+  margin-top: 40px;
+}
+
+.week-table-container {
+  margin-bottom: 10px;
+  box-shadow: none!important;
+}
+
 .member-cell {
-  padding: 5px 0 0 10px;
-  border: 1px solid #ccc;
-  min-height: 30px;
-  border-bottom: none;
+  width: 25%;
 }
 
-.member-grid > .member-cell:last-child{
-  border-bottom: 1px solid #ccc;
+.member-type-cell {
+  background-color: #cfebfb;
 }
 
-/* Styles to apply to all except the first one */
-.member-grid ~ .member-grid {
-  padding-left: 5px!important;
+.regular-type-cell {
+  background-color: #F9F7F3;
 }
 
-.member-groups-by-contact-log {
-  margin: 10px 0 20px 0;
+.visitor-type-cell {
+  background-color: #f7edc5;
 }
 
-.week-frame-header {
-  text-align: center;
-  border: 1px solid #ccc;
-  color: gray;
-  border-bottom: none;
+.remote-type-cell {
+  background-color: #f9cfb8;
 }

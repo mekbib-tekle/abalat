@@ -82,19 +82,10 @@ const FollowUp = () => {
                 {ministers && ministers.map((minister) => {
                     return (
                         <Container key={minister.id}>
-                            <Typography fontWeight="bold" color="primary" style={{ marginBottom: '15x',  marginTop: '40px' }}>
+                            <Typography fontWeight="bold" color="primary" style={{ marginTop: '40px' }}>
                                 {minister.firstName} {minister.middleName} {minister.lastName}
                             </Typography>
 
-                            <Grid container spacing={3} className='member-type-header'>
-                                {memberTypes.map((memberType) => (
-                                    <Grid item xs={12} sm={6} md={3} key={memberType} className="member-grid">
-                                        <Typography fontWeight="bold">
-                                            {memberType[0].toUpperCase() + memberType.slice(1)}
-                                        </Typography>
-                                    </Grid>
-                                ))}
-                            </Grid>
                             <MemberGroupsByContactLog members={minister.members} />
                         </Container>
                     );
