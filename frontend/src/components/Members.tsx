@@ -1,11 +1,11 @@
 import Container from '@mui/material/Container';
 
-const Ministries = () => {
+const Members = () => {
     return (
         <Container>
-            <h1>Ministries</h1>
+            <h1>List of Members</h1>
         </Container>
     );
   };
   
-  export default Ministries;
+  export default Members;

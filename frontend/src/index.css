@@ -27,17 +27,17 @@ code {
 }
 
 .member-type-cell {
-  background-color: #cfebfb;
+  background-color: #D4EEFC;
 }
 
 .regular-type-cell {
-  background-color: #F9F7F3;
+  background-color: #FBFAF7;
 }
 
 .visitor-type-cell {
-  background-color: #f7edc5;
+  background-color: #F4ECC9;
 }
 
 .remote-type-cell {
-  background-color: #f9cfb8;
+  background-color: #fae2d6;
 }

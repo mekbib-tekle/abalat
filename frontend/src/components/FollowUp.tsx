@@ -16,7 +16,6 @@ const mapResponse = (data: MinisterResponse[]): Minister[] => {
             const contactLog = memberData.contactingMinisters;
             let latestContact = contactLog && contactLog.length ? contactLog[0].created_at: '';
             contactLog.forEach((log: any) => {
-                
                 if (!latestContact || (new Date(log.created_at)).getTime() > (new Date(latestContact)).getTime()) {
                     latestContact = log.created_at;
                 }
@@ -48,13 +47,10 @@ const mapResponse = (data: MinisterResponse[]): Minister[] => {
         }
     })
 
-    console.log({minsiterData});
-
     return minsiterData;
 };
 
 const FollowUp = () => {
-    const memberTypes: string[] = ['member','regular','visitor','remote' ]; // fetch from server
     const [ministers, setMinisters] = useState<Minister[]>();
     const [loading, setLoading] = useState(false);
     useEffect(() => {

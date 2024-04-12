@@ -4,7 +4,7 @@ import AuthProvider from './AuthProvider';
 import CssThemeProvider from './theme/CssThemeProvider';
 import { Auth } from './types';
 import Home from './components/Home';
-import Ministries from './components/Ministries';
+import Members from './components/Members';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
 import FollowUp from './components/FollowUp';
@@ -21,7 +21,7 @@ function App() {
               <Routes>
                 <Route index element={<Home />} />
                 <Route path="follow-up" element={<FollowUp />} />
-                <Route path="ministries" element={<Ministries />} />
+                <Route path="members" element={<Members />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

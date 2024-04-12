@@ -90,9 +90,9 @@ function NavBar() {
                     Follow ups
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={() => navigate('/ministries')} sx={{ py: '6px', px: '12px' }} >
+                <MenuItem onClick={() => navigate('/members')} sx={{ py: '6px', px: '12px' }} >
                   <Typography color="text.primary">
-                    Ministries
+                    Members
                   </Typography>
                 </MenuItem>
                 <MenuItem onClick={handleLogout} sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }} >
@@ -142,12 +142,15 @@ function NavBar() {
                     Home
                   </MenuItem>
                   <MenuItem onClick={() => navigate('/follow-up')}>
+                    Follow ups
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/members')}>
                     Members
                   </MenuItem>
-                  <MenuItem onClick={() => navigate('/ministries')}>
-                    Ministries
-                  </MenuItem>
                   <Divider />
+                  <MenuItem onClick={() => navigate('/profile')}>
+                    My profile
+                  </MenuItem>
                   <MenuItem onClick={handleLogout}>
                     Logout
                   </MenuItem>
