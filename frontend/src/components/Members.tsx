@@ -55,7 +55,7 @@ const Members = () => {
         fetchData();
     }, []);
 
-    const filteredMembers = members && members.filter(member =>
+    const filteredMembers = members && members.length && members.filter(member =>
         member.firstName.toLowerCase().includes(filter.toLowerCase())
     );
 
