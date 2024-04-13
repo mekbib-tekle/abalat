@@ -9,6 +9,7 @@ import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
 import FollowUp from './components/FollowUp';
 import { Provider as FetchProvider } from 'use-http';
+import Profile from './components/Profile';
 
 function App() {
   const [authToken, setAuthToken] = useState<Auth>();
@@ -21,6 +22,7 @@ function App() {
               <Routes>
                 <Route index element={<Home />} />
                 <Route path="follow-up" element={<FollowUp />} />
+                <Route path="profile" element={<Profile />} />
                 <Route path="members" element={<Members />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

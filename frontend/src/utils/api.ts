@@ -11,3 +11,20 @@ export const get = async (url: string) => {
     return data;
 };
 
+export const handleLogout = async () => {
+    try {
+      // TODO change this endpoint to /logout, handle response
+      await fetch('http://localhost:8000/auth/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+
+      localStorage.removeItem('authToken');
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      // setError(error);
+      localStorage.removeItem('authToken');
+    }
+  }

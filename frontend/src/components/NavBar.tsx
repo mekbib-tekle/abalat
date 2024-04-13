@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import ProfileIcon from './ProfileIcon';
+import { handleLogout } from '../utils/api';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -21,25 +23,6 @@ function NavBar() {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-
-  const handleLogout = async () => {
-    try {
-      // TODO change this endpoint to /logout, handle response
-      await fetch('http://localhost:8000/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
-
-      localStorage.removeItem('authToken');
-      window.location.href = '/';
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      // setError(error);
-      localStorage.removeItem('authToken');
-    }
-
-  }
 
   return (
     <div>
@@ -95,10 +78,8 @@ function NavBar() {
                     Members
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleLogout} sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }} >
-                  <Typography color="text.primary">
-                    Logout
-                  </Typography>
+                <MenuItem sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }} >
+                  <ProfileIcon />
                 </MenuItem>
               </Box>
             </Box>
