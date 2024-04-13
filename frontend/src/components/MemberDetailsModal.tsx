@@ -68,11 +68,6 @@ const MemberModal: React.FC<MemberModalProps> = ({ open, handleClose, memberId }
                 {member ? (
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
-                            <Grid item xs={6} sm={6}>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2}>
                             <Grid item xs={4} sm={4}>
                                 <TextField
                                     label="First Name"
