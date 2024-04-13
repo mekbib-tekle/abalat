@@ -56,7 +56,7 @@ const FollowUp = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await get('members');
+                const response = await get('members/follow-ups');
                 setMinisters(mapResponse(response));
                 setLoading(false);
             } catch (error) {

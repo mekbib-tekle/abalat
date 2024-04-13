@@ -16,7 +16,7 @@ export class MembersService {
   // get all members under each elder
   // for each member find their last contacted date & their member type
   // TODO select specific fields using .addSelect
-  async findAll(): Promise<Member[]> {
+  async followUps(): Promise<Member[]> {
     // TODO replace ministryId with dynamic value
     const ministryId = 1;
 
@@ -49,6 +49,10 @@ export class MembersService {
     });
 
     return rest;
+  }
+
+  async findAll(): Promise<Member[]> {
+    return await this.membersRepository.find();
   }
 
   async findOne(id: number): Promise<GetMember | null> {
