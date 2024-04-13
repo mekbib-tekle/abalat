@@ -17,32 +17,35 @@ import { styled } from '@mui/material/styles';
 import { Member } from '../types/Member';
 import { get } from '../utils/api';
 import AddMemberModal from './AddMemberModal';
+import MemberDetailsModal from './MemberDetailsModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
+        fontSize: 14,
     },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.action.hover,
     },
     // hide last border
     '&:last-child td, &:last-child th': {
-      border: 0,
+        border: 0,
     },
-  }));
+}));
 
 const Members = () => {
     const [filter, setFilter] = useState<string>('');
     const [members, setMembers] = useState<Member[]>();
     const [loading, setLoading] = useState(false);
-    const [open, setOpen] = useState(false);
+    const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
+    const [openDetailsModal, setOpenDetailsModal] = useState(false);
+    const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,17 +70,27 @@ const Members = () => {
     if (!members || !members.length) return (<Container>No members found.</Container>);
 
     const handleClickOpen = () => {
-        setOpen(true);
-      };
+        setOpenAddMemberModal(true);
+    };
 
-      const handleClose = () => {
-        setOpen(false);
-      };
+    const handleAddMemberClose = () => {
+        setOpenAddMemberModal(false);
+    };
 
-      const handleMemberSubmit = (name: string, email: string) => {
+    const handleMemberSubmit = (name: string, email: string) => {
         // onCreateMember(name, email);
-        handleClose();
-      };
+        handleAddMemberClose();
+    };
+
+    const handleOpenDetailsModal = (memberId: number) => {
+        setSelectedMemberId(memberId);
+        setOpenDetailsModal(true);
+    };
+
+    const handleCloseDetailsModal = () => {
+        setSelectedMemberId(null);
+        setOpenDetailsModal(false);
+    };
 
     return (
         <Container>
@@ -118,14 +131,18 @@ const Members = () => {
                                 <StyledTableCell>{member.phoneNumber}</StyledTableCell>
                                 <StyledTableCell>{member.email}</StyledTableCell>
                                 <StyledTableCell>{member.address}</StyledTableCell>
-                                <StyledTableCell>More</StyledTableCell>
+                                <StyledTableCell>
+                                    <Button variant="text" onClick={() => handleOpenDetailsModal(member.id)}>Details</Button>
+                                </StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
 
-            <AddMemberModal open={open} onClose={handleClose} onSubmit={handleMemberSubmit} />
+            {selectedMemberId &&
+                <MemberDetailsModal open={openDetailsModal} handleClose={handleCloseDetailsModal} memberId={selectedMemberId} />}
+            <AddMemberModal open={openAddMemberModal} onClose={handleAddMemberClose} onSubmit={handleMemberSubmit} />
         </Container>
     );
 };
