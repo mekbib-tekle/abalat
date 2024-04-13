@@ -8,13 +8,15 @@ import {
     Paper,
     TextField,
     Container,
-    Grid
+    Grid,
+    Button,
 } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 
 import { Member } from '../types/Member';
 import { get } from '../utils/api';
+import AddMemberModal from './AddMemberModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -40,6 +42,7 @@ const Members = () => {
     const [filter, setFilter] = useState<string>('');
     const [members, setMembers] = useState<Member[]>();
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,12 +66,29 @@ const Members = () => {
 
     if (!members || !members.length) return (<Container>No members found.</Container>);
 
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+
+      const handleClose = () => {
+        setOpen(false);
+      };
+
+      const handleMemberSubmit = (name: string, email: string) => {
+        // onCreateMember(name, email);
+        handleClose();
+      };
 
     return (
         <Container>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={10}>
-                    <h1>Members</h1>
+                <Grid item xs={12} sm={8}>
+                    <h3>Members</h3>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                    <Button variant="outlined" color="primary" onClick={handleClickOpen} >
+                        Add Member
+                    </Button>
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <TextField
@@ -76,6 +96,7 @@ const Members = () => {
                         variant="outlined"
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
+                        size="small"
                     />
                 </Grid>
             </Grid>
@@ -103,6 +124,8 @@ const Members = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <AddMemberModal open={open} onClose={handleClose} onSubmit={handleMemberSubmit} />
         </Container>
     );
 };
