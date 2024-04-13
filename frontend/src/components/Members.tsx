@@ -61,9 +61,14 @@ const Members = () => {
         fetchData();
     }, []);
 
-    const filteredMembers = members && members.length && members.filter(member =>
-        member.firstName.toLowerCase().includes(filter.toLowerCase())
-    );
+    const filteredMembers = members && members.length && members.filter(member =>{
+        const filterText = filter.toLowerCase();
+        return (
+          member.firstName.toLowerCase().includes(filterText) ||
+          (member.middleName && member.middleName.toLowerCase().includes(filterText)) ||
+          member.lastName.toLowerCase().includes(filterText)
+        );
+      });
 
     if (loading) return (<Container>Loading members...</Container>);
 
