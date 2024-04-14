@@ -2,7 +2,7 @@ import { TableBody, TableCell, TableRow } from '@mui/material/';
 
 import { Member } from '../types/Member';
 import { useState } from 'react';
-import MemberModal from './MemberModal';
+import FollowUpModal from './FollowUpModal';
 
 interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
@@ -62,7 +62,7 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
                     </>
                 ))}
             </TableRow>
-            {showModal && selectedMember && <MemberModal member={selectedMember} onClose={() => setShowModal(false)} />}
+            {showModal && selectedMember && <FollowUpModal member={selectedMember} onClose={() => setShowModal(false)} />}
         </TableBody>
     );
 };

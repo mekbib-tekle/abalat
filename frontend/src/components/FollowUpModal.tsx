@@ -15,12 +15,12 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { Member } from '../types/Member';
 
-interface MemberModalProps {
+interface FollowUpModalProps {
   member: Member | null;
   onClose: () => void;
 }
 
-const MemberModal: React.FC<MemberModalProps> = ({ member, onClose }) => {
+const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
   const [contactMethod, setContactMethod] = useState<string>('');
   
   const handleContactMethod = (
@@ -35,7 +35,7 @@ const MemberModal: React.FC<MemberModalProps> = ({ member, onClose }) => {
   return (
     <Dialog open onClose={onClose}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="h6">Member Details</Typography>
+        <Typography variant="h6">Member Follow Up</Typography>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -85,4 +85,4 @@ const MemberModal: React.FC<MemberModalProps> = ({ member, onClose }) => {
   );
 };
 
-export default MemberModal;
+export default FollowUpModal;
