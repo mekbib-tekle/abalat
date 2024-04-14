@@ -30,8 +30,13 @@ code {
 }
 
 .menu-item:hover {
-  background-color: #0f6ed4!important;
+  background-color: #D4EEFC!important;
 }
+
+.menu-item:hover p {
+  color: #083D77!important;
+}
+
 .menu-item p {
   color: #D4EEFC!important;
 }

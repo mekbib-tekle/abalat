@@ -48,6 +48,7 @@ function NavBar() {
               borderBottom: '1px solid',
               borderColor: 'divider',
               backgroundColor: '#083D77',
+              minHeight: '55px!important',
             })}
           >
             <Box
