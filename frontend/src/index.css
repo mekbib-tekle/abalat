@@ -29,6 +29,14 @@ code {
   border-left: 1px solid #D4EEFC!important;
 }
 
+.menu-item p, .menu-icon {
+  color: #D4EEFC!important;
+}
+
+.menu-icon {
+  color: #D4EEFC!important;
+}
+
 .menu-item:hover {
   background-color: #D4EEFC!important;
 }
@@ -37,8 +45,8 @@ code {
   color: #083D77!important;
 }
 
-.menu-item p {
-  color: #D4EEFC!important;
+.menu-item:hover .menu-icon {
+  color: #083D77!important;
 }
 
 .minister-header {

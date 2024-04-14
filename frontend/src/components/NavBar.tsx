@@ -9,11 +9,17 @@ import {
   Typography,
   MenuItem,
   Drawer,
+  IconButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleIcon from "@mui/icons-material/People";
+
 import ProfileIcon from './ProfileIcon';
 import { handleLogout } from '../utils/api';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -66,21 +72,33 @@ function NavBar() {
 
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem onClick={() => navigate('/')} sx={{ py: '8px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <HomeIcon />
+                  </IconButton>
                   <Typography color="text.primary">
                     HOME
                   </Typography>
                 </MenuItem>
                 <MenuItem onClick={() => navigate('/follow-up')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <ConnectWithoutContactIcon />
+                  </IconButton>
                   <Typography color="text.primary">
                     FOLLOW UPs
                   </Typography>
                 </MenuItem>
                 <MenuItem onClick={() => navigate('/members')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <PeopleIcon />
+                  </IconButton>
                   <Typography color="text.primary">
                     MEMBERS
                   </Typography>
                 </MenuItem>
                 <MenuItem onClick={() => navigate('/admin')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <AdminPanelSettingsIcon />
+                  </IconButton>
                   <Typography color="text.primary">
                     ADMIN
                   </Typography>
