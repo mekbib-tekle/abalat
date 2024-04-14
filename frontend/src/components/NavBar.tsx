@@ -47,6 +47,7 @@ function NavBar() {
               maxHeight: 40,
               borderBottom: '1px solid',
               borderColor: 'divider',
+              backgroundColor: '#083D77',
             })}
           >
             <Box
@@ -58,29 +59,36 @@ function NavBar() {
                 px: 0,
               }}
             >
-              <Typography variant="h6" noWrap component="div" sx={{ color: 'primary.main' }}>
+              <Typography variant="h5" noWrap component="div" className='logo-text'>
                 EECFIN Member Manager
               </Typography>
-              
+
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <MenuItem onClick={() => navigate('/')} sx={{ py: '6px', px: '12px' }} >
+                <MenuItem onClick={() => navigate('/')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
                   <Typography color="text.primary">
-                    Home
+                    HOME
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={() => navigate('/follow-up')} sx={{ py: '6px', px: '12px' }} >
+                <MenuItem onClick={() => navigate('/follow-up')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
                   <Typography color="text.primary">
-                    Follow ups
+                    FOLLOW UPs
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={() => navigate('/members')} sx={{ py: '6px', px: '12px' }} >
+                <MenuItem onClick={() => navigate('/members')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
                   <Typography color="text.primary">
-                    Members
+                    MEMBERS
                   </Typography>
                 </MenuItem>
-                <MenuItem sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }} >
+                <MenuItem onClick={() => navigate('/admin')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <Typography color="text.primary">
+                    ADMIN
+                  </Typography>
+                </MenuItem>
+                <MenuItem sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }}>
                   <ProfileIcon />
                 </MenuItem>
+              </Box>
+              <Box>
               </Box>
             </Box>
             <Box
@@ -120,20 +128,23 @@ function NavBar() {
                   >
                   </Box>
                   <MenuItem onClick={() => navigate('/')}>
-                    Home
+                    HOME
                   </MenuItem>
                   <MenuItem onClick={() => navigate('/follow-up')}>
-                    Follow ups
+                    FOLLOW UPs
                   </MenuItem>
                   <MenuItem onClick={() => navigate('/members')}>
-                    Members
+                    MEMBERS
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/admin')}>
+                    ADMIN
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={() => navigate('/profile')}>
-                    My profile
+                    MY PROFILE
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
-                    Logout
+                    LOGOUT
                   </MenuItem>
                 </Box>
               </Drawer>

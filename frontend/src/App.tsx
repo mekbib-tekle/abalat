@@ -11,6 +11,7 @@ import NavBar from './components/NavBar';
 import FollowUp from './components/FollowUp';
 import { Provider as FetchProvider } from 'use-http';
 import Profile from './components/Profile';
+import Admin from './components/Admin';
 
 function App() {
   const [authToken, setAuthToken] = useState<Auth>();
@@ -25,6 +26,7 @@ function App() {
                 <Route path="follow-up" element={<FollowUp />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="members" element={<Members />} />
+                <Route path="admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

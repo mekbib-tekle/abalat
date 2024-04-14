@@ -12,6 +12,30 @@ code {
     monospace;
 }
 
+.logo-text {
+  font-family: 'Roboto';
+  font-weight: 600!important;
+  letter-spacing: 2px;
+  color: #FFF;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  padding: 0 40px 0 20px;
+}
+
+.menu-item {
+  background-color: #083D77!important;
+  line-height: 30px;
+  height: 55px;
+  border-right: 1px solid #D4EEFC!important;
+  border-left: 1px solid #D4EEFC!important;
+}
+
+.menu-item:hover {
+  background-color: #0f6ed4!important;
+}
+.menu-item p {
+  color: #D4EEFC!important;
+}
+
 .minister-header {
   margin-bottom: 15px;
   margin-top: 40px;
