@@ -29,7 +29,7 @@ const ProfileIcon: React.FC<ProfileIconProps> = () => {
           aria-controls={open ? 'user-menu' : undefined}
           aria-haspopup="true"
           onClick={handleClick}
-          color="info"
+          color="inherit"
         >
           <AccountCircleIcon />
           <ExpandMoreIcon />

@@ -65,7 +65,7 @@ function NavBar() {
               </Typography>
 
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <MenuItem onClick={() => navigate('/')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                <MenuItem onClick={() => navigate('/')} sx={{ py: '8px', px: '12px' }} className='menu-item'>
                   <Typography color="text.primary">
                     HOME
                   </Typography>

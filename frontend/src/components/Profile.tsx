@@ -46,8 +46,8 @@ const Home = () => {
         <Container maxWidth="lg">
             <Grid container spacing={2}>
                 <Grid item xs={4} sm={2}>
-                    <Avatar sx={{ width: 100, height: 100 }}>{firstName && firstName.charAt(0)}</Avatar> {/* Placeholder avatar */}
-                    {image_url && <Avatar alt={fullName} src={image_url} sx={{ width: 100, height: 100, mt: 2 }} />} {/* Use image_url if available */}
+                    <Avatar sx={{ width: 100, height: 100 }}>{firstName && firstName.charAt(0)}</Avatar>
+                    {image_url && <Avatar alt={fullName} src={image_url} sx={{ width: 100, height: 100, mt: 2 }} />}
                 </Grid>
                 <Grid item xs={8} sm={10}>
                     <Typography variant="h6">{fullName}</Typography>
