@@ -12,7 +12,6 @@ import {
     DeleteDateColumn,
   } from 'typeorm';
 import { MemberType } from './memberType.entity';
-import { Ministry } from './ministry.entity';
 import { ContactLog } from './contactLog.entity';
 import { MemberUnderMinister } from './memberUnderMinister.entity';
 import { MemberMinistry } from './memberMinistry.entity';
@@ -29,7 +28,7 @@ import { MemberMinistry } from './memberMinistry.entity';
     Female = 'Female',
   }
 
-  @Entity()
+  @Entity('members')
   export class Member {
     @PrimaryGeneratedColumn()
     id: number;

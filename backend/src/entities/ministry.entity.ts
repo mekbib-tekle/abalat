@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { MemberMinistry } from './memberMinistry.entity';
 
-@Entity()
+@Entity('ministries')
 export class Ministry {
   @PrimaryGeneratedColumn()
   id: number;
