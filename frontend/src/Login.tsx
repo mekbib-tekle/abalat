@@ -32,8 +32,10 @@ export default function Login({ setAuthToken } : Props) {
       username: data.get('username'),
       password: data.get('password'),
     });
-    setAuthToken(token);
-    localStorage.setItem('authToken', token.access_token);
+    if (token) {
+      setAuthToken(token);
+      localStorage.setItem('authToken', token.access_token);
+    }
   }, [post, setAuthToken]);
 
   const invalidLogin = useMemo(() => {

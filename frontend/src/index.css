@@ -51,7 +51,12 @@ code {
 
 .minister-header {
   margin-bottom: 15px;
-  margin-top: 40px;
+  margin-top: 50px!important;
+  font-weight: bold!important;
+  color: #FFF;
+  background-color: #607d8b;
+  padding: 15px;
+  text-align: center;
 }
 
 .week-table-container {

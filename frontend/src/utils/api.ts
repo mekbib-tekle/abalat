@@ -14,7 +14,7 @@ export const get = async (url: string) => {
 export const handleLogout = async () => {
     try {
       // TODO change this endpoint to /logout, handle response
-      await fetch('http://localhost:8000/auth/profile', {
+      await fetch(BASE_URL + 'auth/profile', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
