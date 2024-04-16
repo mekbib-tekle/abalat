@@ -21,7 +21,7 @@ import MemberDetailsModal from './MemberDetailsModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: "#607d8b",
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
