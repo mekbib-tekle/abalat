@@ -68,18 +68,18 @@ code {
   width: 25%;
 }
 
-.member-type-cell {
+.member-type-cell, .member-type-1-cell {
   background-color: #D4EEFC;
 }
 
-.regular-type-cell {
+.regular-type-cell, .member-type-2-cell {
   background-color: #FBFAF7;
 }
 
-.visitor-type-cell {
+.visitor-type-cell, .member-type-3-cell {
   background-color: #F4ECC9;
 }
 
-.remote-type-cell {
+.remote-type-cell, .member-type-4-cell {
   background-color: #fae2d6;
 }

@@ -8,15 +8,15 @@ interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
     weekFrame: string;
 }
-  
+
 const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFrame }) => {
-    const memberTypes: string[] = ['member','regular','visitor','remote' ]; // fetch from server
+    const memberTypes: string[] = ['member', 'regular', 'visitor', 'remote']; // fetch from server
     const [showModal, setShowModal] = useState(false);
     const [selectedMember, setSelectedMember] = useState<Member>();
 
     const handleClick = (member: Member) => {
-      setSelectedMember(member);
-      setShowModal(true);
+        setSelectedMember(member);
+        setShowModal(true);
     };
 
     if (!members) {
@@ -47,24 +47,31 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
 
     // Calculate the maximum number of rows for any member type
     const maxRows = Math.max(...Object.values(groupedMembers).map((members) => members.length));
+    // console.log({maxRows});
+    console.log({ groupedMembers });
+
+    const groupedMembersByRows = [...Array(maxRows)].map((_, index) => {
+        return memberTypes.map((memberType) => {
+            return groupedMembers[memberType]?.[index];
+        })
+    });
+
+    console.log({ groupedMembersByRows });
 
     return (
         <TableBody>
-            <TableRow>
-                {memberTypes.map((memberType) => (
-                    <>
-                        {[...Array(maxRows)].map((_, index) => (
-                            <TableCell key={index} className={`member-cell ${memberType}-type-cell`}>
-                                {groupedMembers[memberType] && groupedMembers[memberType][index] &&
-                                    printMember(groupedMembers[memberType][index])}
-                            </TableCell>
-                        ))}
-                    </>
-                ))}
-            </TableRow>
+            {groupedMembersByRows.map((memberGroups) => (
+                <TableRow>
+                    {memberGroups.map((member, index) => (
+                        <TableCell key={index} className={`member-cell ${member && member.memberType}-type-cell member-type-${index+1}-cell`}>
+                            {member && printMember(member)}
+                        </TableCell>
+                    ))}
+                </TableRow>
+            ))}
             {showModal && selectedMember && <FollowUpModal member={selectedMember} onClose={() => setShowModal(false)} />}
         </TableBody>
     );
 };
-  
+
 export default MemberGroupsByType;
