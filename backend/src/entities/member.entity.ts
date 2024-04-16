@@ -28,7 +28,7 @@ import { MemberMinistry } from './memberMinistry.entity';
     Female = 'Female',
   }
 
-  @Entity('members')
+  @Entity()
   export class Member {
     @PrimaryGeneratedColumn()
     id: number;
@@ -85,8 +85,11 @@ import { MemberMinistry } from './memberMinistry.entity';
     })
     roleInPreviousChurch: string;
 
-    @Column({ name: 'is_baptised' })
-    isBaptised: string;
+    @Column({
+      name: 'is_baptised',
+      nullable: true,
+    })
+    isBaptised: boolean;
 
     @Column({
       name: 'spouse_name',

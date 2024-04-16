@@ -11,7 +11,7 @@ import { Member } from './member.entity';
 import { Ministry } from './ministry.entity';
 import { Role } from './role.entity';
 
-@Entity('member_ministries')
+@Entity()
 export class MemberMinistry {
   @PrimaryGeneratedColumn()
   id: number;
