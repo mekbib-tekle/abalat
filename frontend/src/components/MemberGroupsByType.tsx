@@ -47,16 +47,12 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
 
     // Calculate the maximum number of rows for any member type
     const maxRows = Math.max(...Object.values(groupedMembers).map((members) => members.length));
-    // console.log({maxRows});
-    console.log({ groupedMembers });
 
     const groupedMembersByRows = [...Array(maxRows)].map((_, index) => {
         return memberTypes.map((memberType) => {
             return groupedMembers[memberType]?.[index];
         })
     });
-
-    console.log({ groupedMembersByRows });
 
     return (
         <TableBody>
