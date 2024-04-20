@@ -5,7 +5,6 @@ import CssThemeProvider from './theme/CssThemeProvider';
 import { Auth } from './types';
 import Home from './components/Home';
 import Members from './components/Members';
-import MemberDetails from './components/MemberDetailsModal';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
 import FollowUp from './components/FollowUp';

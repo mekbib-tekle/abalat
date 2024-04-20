@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Auth } from './types';
 import Login from './Login';
 import { jwtDecode } from "jwt-decode";

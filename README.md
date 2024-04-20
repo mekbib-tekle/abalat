@@ -1,23 +1,28 @@
-# abalat
+## abalat
 
-docker-compose up
+### To run the full project
 
-
-### OR
-
-This approach is better for the backend live reload
-
-
-cd backend
-npm start --watch
-
-cd frontend
-npm start
-
-start the database container from docker (If you don't have the database container, start all containers with `docker-compose up`. Then stop the other containers, leave the database running.)
+`docker-compose up --build`
 
 
 ### Seed data
+from docker desktop
+- Open "database" container
+- go to exec
+- `mysql -u root -p`
+- it asks for password: `root`
+- `use abalat;`
+- copy each insert statement from `backend/src/config/db_seed.sql` and populate the database
+- login with `admin:123`
 
-backend/src/config/db_seed.sql has insert statements that can be used for testing.
-After seeding the data, login with `admin:123`
+### for better backend live reload
+
+Stop the backend and frontend containers from docker. Leave the database container running.
+
+`cd backend`
+`npm start --watch`
+
+`cd frontend`
+`npm start`
+
+

@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react';
 import { MinisterResponse, Member, MemberObj, Minister } from '../types/Member';
 import { getWeekMap } from '../utils/date';
 import { get } from '../utils/api';
-import { Grid, Typography } from '@mui/material';
+import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import MemberGroupsByContactLog from './MemberGroupsByContactLog';
 
 // convert the data from the server to a more structured format
-const mapResponse = (data: MinisterResponse[]): Minister[] => {
+export const mapResponse = (data: MinisterResponse[]): Minister[] => {
     const minsiterData = data && data.map((minister: MinisterResponse): Minister => {
         const members = minister.members;
         const membersUnderMinister = members.map((member: MemberObj): Member => {
             const memberData = member.member;
             const memberType = memberData.memberType.name;
             const contactLog = memberData.contactingMinisters;
-            let latestContact = contactLog && contactLog.length ? contactLog[0].created_at: '';
+            let latestContact = contactLog && contactLog.length ? contactLog[0].created_at : '';
             contactLog.forEach((log: any) => {
                 if (!latestContact || (new Date(log.created_at)).getTime() > (new Date(latestContact)).getTime()) {
                     latestContact = log.created_at;
@@ -53,10 +53,19 @@ const mapResponse = (data: MinisterResponse[]): Minister[] => {
 const FollowUp = () => {
     const [ministers, setMinisters] = useState<Minister[]>();
     const [loading, setLoading] = useState(false);
+    const [contactSource, setContactSource] = useState('own');
+
+    const handleChange = (
+        event: React.MouseEvent<HTMLElement>,
+        source: string,
+    ) => {
+        setContactSource(source);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await get('members/follow-ups');
+                const response = await get(`members/follow-ups?filter=${contactSource}`);
                 setMinisters(mapResponse(response));
                 setLoading(false);
             } catch (error) {
@@ -65,7 +74,7 @@ const FollowUp = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [contactSource]);
 
     if (loading) return (<Container>Loading members...</Container>);
 
@@ -75,6 +84,18 @@ const FollowUp = () => {
         <Container>
             <h1>Follow up</h1>
             <Grid container spacing={2}>
+                <Grid item xs={12} alignContent={'right'} textAlign={'right'}>
+                    <Typography>Show members contacted by &nbsp;&nbsp;</Typography>
+                    <ToggleButtonGroup
+                        color="primary"
+                        value={contactSource}
+                        exclusive
+                        onChange={handleChange}
+                    >
+                        <ToggleButton size='small' value="own">Own ministers only</ToggleButton>
+                        <ToggleButton size='small' value="all">All ministers</ToggleButton>
+                    </ToggleButtonGroup>
+                </Grid>
                 {ministers && ministers.map((minister) => {
                     return (
                         <Container key={minister.id}>
@@ -89,8 +110,8 @@ const FollowUp = () => {
             </Grid>
         </Container>
     );
-  };
-  
-  export default FollowUp;
+};
+
+export default FollowUp;
 
 

@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
@@ -17,8 +18,10 @@ export class MembersController {
 
   @UseGuards(AuthGuard)
   @Get('follow-ups')
-  async getMembersFollowUp(): Promise<GetMember[]> {
-    const members = await this.memberService.followUps();
+  async getFollowUps(@Query() query: Record<string, any>): Promise<GetMember[]> {
+    const filter = query.filter;
+    const ministerId = query.minister_id;
+    const members = await this.memberService.followUps(ministerId, filter);
     return members.map((member) => this.memberService.mapMemberToMemberDto(member));
   }
 

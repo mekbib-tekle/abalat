@@ -9,14 +9,14 @@ export class MembersService {
   constructor(
     @InjectRepository(Member)
     private membersRepository: Repository<Member>,
-  ) {}
+  ) { }
 
 
   // get all elders
   // get all members under each elder
   // for each member find their last contacted date & their member type
   // TODO select specific fields using .addSelect
-  async followUps(): Promise<Member[]> {
+  async followUps(ministerId: number, filter: string): Promise<Member[]> {
     // TODO replace ministryId with dynamic value
     const ministryId = 1;
 
@@ -28,13 +28,19 @@ export class MembersService {
     queryBuilder.leftJoinAndSelect('membersUnderMinister.member', 'memberUM');
     queryBuilder.leftJoinAndSelect('memberUM.memberType', 'memberUMT');
 
-    // how long ago this minister contacted the member under his care
-    queryBuilder.leftJoinAndSelect('memberUM.contactingMinisters', 'contactLog', 'contactLog.minister_id = member.id');
-
-    // how long ago a member was contacted regardless of the minister under whose care he/she is
-    // queryBuilder.leftJoinAndSelect('memberUM.contactingMinisters', 'contactLog', 'contactLog.member_id = memberUM.id');
+    if (filter === "all") {
+      // how long ago a member was contacted regardless of the minister under whose care he/she is
+      queryBuilder.leftJoinAndSelect('memberUM.contactingMinisters', 'contactLog', 'contactLog.member_id = memberUM.id');
+    } else {
+      // how long ago this minister contacted the member under his care
+      queryBuilder.leftJoinAndSelect('memberUM.contactingMinisters', 'contactLog', 'contactLog.minister_id = member.id');
+    }
 
     queryBuilder.where('memberMinistry.ministry_id = :ministryId', { ministryId });
+
+    if (ministerId) {
+      queryBuilder.where('member.id = :ministerId', { ministerId });
+    }
 
     return await queryBuilder.getMany();
   }
