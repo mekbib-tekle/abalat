@@ -22,6 +22,18 @@ import { Member } from './member.entity';
     @JoinColumn({ name: 'member_id' })
     member: Member;
 
+    @Column({
+      name: 'contactMethod',
+      nullable: true,
+    })
+    contactMethod: string;
+
+    @Column({
+      name: 'note',
+      nullable: true,
+    })
+    note: string;
+
     @CreateDateColumn()
     created_at: Date;
   

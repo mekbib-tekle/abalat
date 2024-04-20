@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { 
+import {
   Button,
   Checkbox,
   FormControlLabel,
@@ -10,10 +10,12 @@ import {
   DialogTitle,
   IconButton,
   Typography,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Member } from '../types/Member';
+import { post } from '../utils/api';
 
 interface FollowUpModalProps {
   member: Member | null;
@@ -22,15 +24,36 @@ interface FollowUpModalProps {
 
 const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
   const [contactMethod, setContactMethod] = useState<string>('');
-  
+  const [note, setNote] = useState<string>('');
+  const [flagged, setFlagged] = useState(false);
+
   const handleContactMethod = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
+    newContactMethod: string,
   ) => {
-    setContactMethod(newAlignment);
+    setContactMethod(newContactMethod);
   };
-  
+
+  const handleNoteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(event.target.value);
+  };
+
+  const handleFlagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFlagged(event.target.checked);
+  };
+
   if (!member) return null;
+
+  function handleSubmit(event: React.MouseEvent<HTMLButtonElement>): void {
+    post("members/follow-up", {
+      flagged,
+      note,
+      contactMethod,
+      ministerId: 1,
+      memberId: member && member.id
+    });
+    onClose();
+  }
 
   return (
     <Dialog open onClose={onClose}>
@@ -69,12 +92,25 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
         <br />
         <br />
         <FormControlLabel
-          control={<Checkbox value={true} />}
+          control={<Checkbox value={true} checked={flagged} onChange={handleFlagChange} />}
           label={`Flag ${member.firstName} for attention this week`}
         />
+        <br />
+        <div>
+          <TextField
+            label="Leave a note"
+            variant="outlined"
+            multiline
+            rows={3}
+            value={note}
+            onChange={handleNoteChange}
+            placeholder="Write your note here..."
+            fullWidth
+          />
+        </div>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           Save
         </Button>
         <Button variant="outlined" onClick={onClose}>

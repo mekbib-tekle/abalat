@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, createQueryBuilder } from 'typeorm';
 import { Member } from '../entities/member.entity';
 import * as bcrypt from 'bcrypt';
+import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto';
+import { ContactLog } from '../entities/contactLog.entity';
 
 @Injectable()
 export class MembersService {
   constructor(
     @InjectRepository(Member)
     private membersRepository: Repository<Member>,
+    @InjectRepository(ContactLog)
+    private contactLogRepository: Repository<ContactLog>,
   ) { }
 
 
@@ -72,6 +76,20 @@ export class MembersService {
 
   async remove(id: number): Promise<void> {
     await this.membersRepository.delete(id);
+  }
+
+  async updateFollowUp(updateFollowUp: UpdateFollowUpDto): Promise<ContactLog | null> {
+    const member = await this.membersRepository.findOneBy({ id: updateFollowUp.memberId });
+    const minister = await this.membersRepository.findOneBy({ id: updateFollowUp.ministerId });
+
+    const contactLog = await this.contactLogRepository.save({
+      member,
+      minister,
+      contactMethod: updateFollowUp.contactMethod,
+      note: updateFollowUp.note,
+    });
+
+    return contactLog;
   }
 
   // util

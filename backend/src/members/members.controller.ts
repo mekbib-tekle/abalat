@@ -11,10 +11,11 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { GetMember, MembersService, PostMember } from './members.service';
-
+import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto'
+import { ContactLog } from '../entities/contactLog.entity';
 @Controller('members')
 export class MembersController {
-  constructor(private readonly memberService: MembersService) {}
+  constructor(private readonly memberService: MembersService) { }
 
   @UseGuards(AuthGuard)
   @Get('follow-ups')
@@ -42,6 +43,13 @@ export class MembersController {
       throw new NotFoundException();
     }
     return member;
+  }
+
+  @Post('follow-up')
+  async postFollowUp(
+    @Body() updateFollowUp: UpdateFollowUpDto
+  ): Promise<ContactLog> {
+    return await this.memberService.updateFollowUp(updateFollowUp);
   }
 
   @Post('create')
