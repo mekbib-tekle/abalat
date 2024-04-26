@@ -5,9 +5,11 @@ import { Container, Paper, Table, TableCell, TableContainer, TableHead, TableRow
 
 interface MemberGroupsByContactLogProps {
     members: Member[] | undefined;
+    setSelectedMember: (member: Member) => void;
+    setShowFollowUpModal: (flag: boolean) => void;
 }
 
-const MemberGroupsByContactLog: React.FC<MemberGroupsByContactLogProps> = ({ members }) => {
+const MemberGroupsByContactLog: React.FC<MemberGroupsByContactLogProps> = ({ members, setSelectedMember, setShowFollowUpModal }) => {
     if (!members) return (<Container>No members</Container>)
 
     const memberTypes: string[] = ['member','regular','visitor','remote' ]; // fetch from server
@@ -61,6 +63,8 @@ const MemberGroupsByContactLog: React.FC<MemberGroupsByContactLogProps> = ({ mem
                         <MemberGroupsByType
                             members={groupedMembers[WeekFrame[latestContact]]}
                             weekFrame={WeekFrame[latestContact]}
+                            setSelectedMember={setSelectedMember}
+                            setShowFollowUpModal={setShowFollowUpModal}
                         />
                     </Table>
                 </TableContainer>

@@ -7,16 +7,16 @@ import FollowUpModal from './FollowUpModal';
 interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
     weekFrame: string;
+    setSelectedMember: (member: Member) => void;
+    setShowFollowUpModal: (flag: boolean) => void;
 }
 
-const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFrame }) => {
+const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFrame, setSelectedMember, setShowFollowUpModal }) => {
     const memberTypes: string[] = ['member', 'regular', 'visitor', 'remote']; // fetch from server
-    const [showModal, setShowModal] = useState(false);
-    const [selectedMember, setSelectedMember] = useState<Member>();
 
     const handleClick = (member: Member) => {
         setSelectedMember(member);
-        setShowModal(true);
+        setShowFollowUpModal(true);
     };
 
     if (!members) {
@@ -65,7 +65,6 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
                     ))}
                 </TableRow>
             ))}
-            {showModal && selectedMember && <FollowUpModal member={selectedMember} onClose={() => setShowModal(false)} />}
         </TableBody>
     );
 };

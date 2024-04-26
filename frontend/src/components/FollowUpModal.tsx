@@ -16,10 +16,11 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { Member } from '../types/Member';
 import { post } from '../utils/api';
+import { decodeToken } from '../utils/token';
 
 interface FollowUpModalProps {
   member: Member | null;
-  onClose: () => void;
+  onClose: (flag: boolean) => void;
 }
 
 const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
@@ -45,21 +46,24 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
   if (!member) return null;
 
   function handleSubmit(event: React.MouseEvent<HTMLButtonElement>): void {
+    const token = localStorage.getItem('authToken');
+    const decodedToken = token ? decodeToken(token) : null;
+
     post("members/follow-up", {
       flagged,
       note,
       contactMethod,
-      ministerId: 1,
+      ministerId: decodedToken?.sub,
       memberId: member && member.id
     });
-    onClose();
+    onClose(false);
   }
 
   return (
     <Dialog open onClose={onClose}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6">Member Follow Up</Typography>
-        <IconButton onClick={onClose}>
+        <IconButton onClick={() => onClose(false)}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -113,7 +117,7 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Save
         </Button>
-        <Button variant="outlined" onClick={onClose}>
+        <Button variant="outlined" onClick={() => onClose(false)}>
           Close
         </Button>
       </DialogActions>

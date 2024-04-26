@@ -5,6 +5,7 @@ import { getWeekMap } from '../utils/date';
 import { get } from '../utils/api';
 import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import MemberGroupsByContactLog from './MemberGroupsByContactLog';
+import FollowUpModal from './FollowUpModal';
 
 // convert the data from the server to a more structured format
 export const mapResponse = (data: MinisterResponse[]): Minister[] => {
@@ -54,6 +55,8 @@ const FollowUp = () => {
     const [ministers, setMinisters] = useState<Minister[]>();
     const [loading, setLoading] = useState(false);
     const [contactSource, setContactSource] = useState('own');
+    const [showFollowUpModal, setShowFollowUpModal] = useState(false);
+    const [selectedMember, setSelectedMember] = useState<Member>();
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
@@ -74,7 +77,7 @@ const FollowUp = () => {
             }
         };
         fetchData();
-    }, [contactSource]);
+    }, [contactSource, showFollowUpModal]);
 
     if (loading) return (<Container>Loading members...</Container>);
 
@@ -103,11 +106,17 @@ const FollowUp = () => {
                                 {minister.firstName} {minister.middleName} {minister.lastName}
                             </Typography>
 
-                            <MemberGroupsByContactLog members={minister.members} />
+                            <MemberGroupsByContactLog
+                                members={minister.members}
+                                setSelectedMember={setSelectedMember}
+                                setShowFollowUpModal={setShowFollowUpModal}
+                            />
                         </Container>
                     );
                 })}
             </Grid>
+
+            {showFollowUpModal && selectedMember && <FollowUpModal member={selectedMember} onClose={() => setShowFollowUpModal(false)} />}
         </Container>
     );
 };

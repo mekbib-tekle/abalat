@@ -34,6 +34,12 @@ import { Member } from './member.entity';
     })
     note: string;
 
+    @Column({
+      name: 'flagged',
+      default: false,
+    })
+    flagged: boolean;
+
     @CreateDateColumn()
     created_at: Date;
   
