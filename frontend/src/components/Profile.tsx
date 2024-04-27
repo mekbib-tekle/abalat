@@ -2,7 +2,7 @@ import { Avatar, Grid, Typography, List, ListItem, ListItemText, ListItemIcon, C
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import { Member } from '../types/Member';
+import { Member } from '../utils/types';
 import { useEffect, useState } from 'react';
 import { get } from '../utils/api';
 

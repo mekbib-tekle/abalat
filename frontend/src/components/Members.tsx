@@ -14,7 +14,7 @@ import {
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 
-import { Member } from '../types/Member';
+import { Member } from '../utils/types';
 import { get } from '../utils/api';
 import AddMemberModal from './AddMemberModal';
 import MemberDetailsModal from './MemberDetailsModal';

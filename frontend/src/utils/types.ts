@@ -24,7 +24,7 @@ export interface BaseMember {
     email: string;
     image_url?: string;
 }
-  
+
 export interface Member extends BaseMember {
     memberType: string;
     latestContact: string | null;
@@ -48,4 +48,8 @@ export interface MinisterResponse extends BaseMember {
     memberType: MemberType;
     latestContact: string;
     members: MemberObj[];
+}
+
+export type Auth = {
+    access_token: string;
 }

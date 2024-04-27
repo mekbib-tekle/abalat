@@ -1,4 +1,4 @@
-import { Member } from '../types/Member';
+import { Member } from '../utils/types';
 import { WeekFrame } from '../utils/date';
 import MemberGroupsByType from './MemberGroupsByType';
 import { Container, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';

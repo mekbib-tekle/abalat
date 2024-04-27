@@ -16,7 +16,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from './includes/Copyright';
 import useFetch from 'use-http';
 import { useCallback, useMemo } from 'react';
-import { Auth } from './types';
+import { Auth } from './utils/types';
 
 type Props = {
   setAuthToken: React.Dispatch<React.SetStateAction<Auth | undefined>>

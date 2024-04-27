@@ -14,7 +14,7 @@ import {
   TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Member } from '../types/Member';
+import { Member } from '../utils/types';
 import { post } from '../utils/api';
 import { decodeToken } from '../utils/token';
 

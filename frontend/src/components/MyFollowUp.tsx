@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
-import { Member, Minister } from '../types/Member';
+import { Member, Minister } from '../utils/types';
 import { get } from '../utils/api';
 import { Grid } from '@mui/material';
 import MemberGroupsByContactLog from './MemberGroupsByContactLog';

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Auth } from './types';
+import { Auth } from './utils/types';
 import Login from './Login';
 import { isValidToken } from './utils/token';
 

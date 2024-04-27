@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthProvider from './AuthProvider';
 import CssThemeProvider from './theme/CssThemeProvider';
-import { Auth } from './types';
+import { Auth } from './utils/types';
 import Home from './components/Home';
 import Members from './components/Members';
 import NotFound from './components/NotFound';

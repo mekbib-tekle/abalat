@@ -1,8 +1,5 @@
 import { TableBody, TableCell, TableRow } from '@mui/material/';
-
-import { Member } from '../types/Member';
-import { useState } from 'react';
-import FollowUpModal from './FollowUpModal';
+import { Member } from '../utils/types';
 
 interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
