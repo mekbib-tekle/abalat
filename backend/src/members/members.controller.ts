@@ -27,6 +27,18 @@ export class MembersController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('contact-log/:id')
+  async getContactLog(
+    @Param('id', new ParseIntPipe()) id: number,
+  ): Promise<ContactLog[]> {
+    const log = await this.memberService.getContactLog(id);
+    if (!log) {
+      throw new NotFoundException();
+    }
+    return log;
+  }
+
+  @UseGuards(AuthGuard)
   @Get()
   async getMembers(): Promise<GetMember[]> {
     const members = await this.memberService.findAll();

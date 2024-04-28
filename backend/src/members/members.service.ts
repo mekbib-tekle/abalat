@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, createQueryBuilder } from 'typeorm';
+import { EqualOperator, Repository, createQueryBuilder } from 'typeorm';
 import { Member } from '../entities/member.entity';
 import * as bcrypt from 'bcrypt';
 import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto';
@@ -62,7 +62,9 @@ export class MembersService {
   }
 
   async findAll(): Promise<Member[]> {
-    return await this.membersRepository.find();
+    return await this.membersRepository.find({
+      order: { firstName: 'ASC' }
+    });
   }
 
   async findOne(id: number): Promise<GetMember | null> {
@@ -87,6 +89,19 @@ export class MembersService {
       minister,
       contactMethod: updateFollowUp.contactMethod,
       note: updateFollowUp.note,
+      flagged: updateFollowUp.flagged,
+    });
+
+    return contactLog;
+  }
+
+  async getContactLog(memberId: number): Promise<ContactLog[] | null> {
+    const contactLog = await this.contactLogRepository.find({
+      where: {
+        member: new EqualOperator<number>(memberId)
+      },
+      relations: ['minister'],
+      order: { created_at: 'DESC' },
     });
 
     return contactLog;

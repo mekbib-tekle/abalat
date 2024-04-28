@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, Grid } from '@mui/material';
 import { get } from '../utils/api';
+import ContactLog from './ContactLog';
 
 interface MemberModalProps {
     open: boolean;
@@ -32,7 +33,7 @@ const MemberModal: React.FC<MemberModalProps> = ({ open, handleClose, memberId }
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: '80%',
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
@@ -66,117 +67,126 @@ const MemberModal: React.FC<MemberModalProps> = ({ open, handleClose, memberId }
                     Member Details
                 </Typography>
                 {member ? (
-                    <form onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={4} sm={4}>
-                                <TextField
-                                    label="First Name"
-                                    name="firstName"
-                                    value={member.firstName}
-                                    onChange={handleInputChange}
-                                    margin="normal"
-                                    fullWidth
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={4} sm={4}>
-                                <TextField
-                                    label="Last Name"
-                                    name="lastName"
-                                    value={member.lastName}
-                                    onChange={handleInputChange}
-                                    margin="normal"
-                                    fullWidth
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={4} sm={4}>
-                                <TextField
-                                    label="Middle Name"
-                                    name="middleName"
-                                    value={member.middleName}
-                                    onChange={handleInputChange}
-                                    margin="normal"
-                                    fullWidth
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    label="Phone Number"
-                                    name="phoneNumber"
-                                    value={member.phoneNumber}
-                                    onChange={handleInputChange}
-                                    margin="normal"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    label="Email"
-                                    name="email"
-                                    value={member.email}
-                                    onChange={handleInputChange}
-                                    margin="normal"
-                                    fullWidth
-                                    required
-                                />
-                            </Grid>
-                        </Grid>
-                        <TextField
-                            label="Address"
-                            name="address"
-                            value={member.address}
-                            onChange={handleInputChange}
-                            margin="normal"
-                            fullWidth
-                            multiline
-                        />
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    label="Username"
-                                    name="username"
-                                    value={member.username || ''} // Handle optional username
-                                    onChange={handleInputChange}
-                                    margin="normal"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6}>
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel id="memberType-label">Member Type</InputLabel>
-                                    <Select
-                                        labelId="memberType-label"
-                                        id="memberType"
-                                        value={member.memberType}
-                                        label="Member Type"
-                                        onChange={handleMemberTypeChange}
-                                    >
-                                        {memberTypes.map((type) => (
-                                            <MenuItem key={type} value={type}>
-                                                {type}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                        </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} sm={6}>
-                                <Button variant="contained" type="submit" color="primary">
-                                    Save Changes
-                                </Button>
-                            </Grid>
-                            <Grid item xs={6} sm={6}>
-                                <Button variant="contained" color="warning" onClick={handleClose}>
-                                    Close
-                                </Button>
-                            </Grid>
+                            <form onSubmit={handleSubmit}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={4} sm={4}>
+                                        <TextField
+                                            label="First Name"
+                                            name="firstName"
+                                            value={member.firstName}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={4} sm={4}>
+                                        <TextField
+                                            label="Last Name"
+                                            name="lastName"
+                                            value={member.lastName}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={4} sm={4}>
+                                        <TextField
+                                            label="Middle Name"
+                                            name="middleName"
+                                            value={member.middleName}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            label="Phone Number"
+                                            name="phoneNumber"
+                                            value={member.phoneNumber}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            label="Email"
+                                            name="email"
+                                            value={member.email}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <TextField
+                                    label="Address"
+                                    name="address"
+                                    value={member.address}
+                                    onChange={handleInputChange}
+                                    margin="normal"
+                                    fullWidth
+                                    multiline
+                                />
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            label="Username"
+                                            name="username"
+                                            value={member.username || ''} // Handle optional username
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} sm={6}>
+                                        <FormControl fullWidth margin="normal">
+                                            <InputLabel id="memberType-label">Member Type</InputLabel>
+                                            <Select
+                                                labelId="memberType-label"
+                                                id="memberType"
+                                                value={member.memberType}
+                                                label="Member Type"
+                                                onChange={handleMemberTypeChange}
+                                            >
+                                                {memberTypes.map((type) => (
+                                                    <MenuItem key={type} value={type}>
+                                                        {type}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6} sm={6}>
+                                        <Button variant="contained" type="submit" color="primary">
+                                            Save Changes
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6} sm={6}>
+                                        <Button variant="contained" color="warning" onClick={handleClose}>
+                                            Close
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
                         </Grid>
-                    </form>
+                        <Grid item xs={12}  sm={6}>
+                            <center>CONTACT LOG</center>
+                            <ContactLog memberId={member.id}/>
+                        </Grid>
+                    </Grid>
                 ) : (
                     <>
                         <Typography variant="body2">Loading member details...</Typography>

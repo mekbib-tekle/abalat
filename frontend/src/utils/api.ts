@@ -8,6 +8,10 @@ export const get = async (url: string) => {
   });
   const data = await response.json();
 
+  if (!response.ok) {
+    throw new Error(`API request failed with status code ${response.status} - ${data.error}`);
+  }
+
   return data;
 };
 

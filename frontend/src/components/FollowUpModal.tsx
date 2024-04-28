@@ -11,12 +11,15 @@ import {
   IconButton,
   Typography,
   ToggleButtonGroup,
-  TextField
+  TextField,
+  Grid
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { Member } from '../utils/types';
 import { post } from '../utils/api';
 import { decodeToken } from '../utils/token';
+import MemberDetailsModal from './MemberDetailsModal';
 
 interface FollowUpModalProps {
   member: Member | null;
@@ -27,6 +30,7 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
   const [contactMethod, setContactMethod] = useState<string>('');
   const [note, setNote] = useState<string>('');
   const [flagged, setFlagged] = useState(false);
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
 
   const handleContactMethod = (
     event: React.MouseEvent<HTMLElement>,
@@ -68,9 +72,21 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent dividers>
-        <Typography variant="body1" style={{ fontWeight: 'bold' }}>
-          {member.firstName} {member.middleName}  {member.lastName}
-        </Typography>
+        <Grid container xs={12}>
+          <Grid item xs={9}>
+            <Typography variant="body1" style={{ fontWeight: 'bold' }}>
+              {member.firstName} {member.middleName}  {member.lastName}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <IconButton onClick={() => setOpenDetailsModal(true)} color='success'>
+              <Typography variant="body1" style={{ fontWeight: 'bold' }}>
+                More
+              </Typography>
+              <ReadMoreIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Typography variant="body2">{member.phoneNumber}</Typography>
         <Typography variant="body2">{member.email}</Typography>
         <Typography variant="body2">{member.address}</Typography>
@@ -121,6 +137,9 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
           Close
         </Button>
       </DialogActions>
+
+      {openDetailsModal &&
+          <MemberDetailsModal open={openDetailsModal} handleClose={() => setOpenDetailsModal(false)} memberId={member.id} />}
     </Dialog>
   );
 };

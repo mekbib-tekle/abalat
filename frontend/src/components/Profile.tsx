@@ -6,7 +6,7 @@ import { Member } from '../utils/types';
 import { useEffect, useState } from 'react';
 import { get } from '../utils/api';
 
-const Home = () => {
+const Profile = () => {
     const [user, setUser] = useState<Member>();
     const [loading, setLoading] = useState(false);
 
@@ -78,4 +78,4 @@ const Home = () => {
     );
   };
   
-  export default Home;
+  export default Profile;

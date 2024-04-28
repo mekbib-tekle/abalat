@@ -53,3 +53,12 @@ export interface MinisterResponse extends BaseMember {
 export type Auth = {
     access_token: string;
 }
+
+export type ContactLog = {
+    id: number,
+    contactMethod: string,
+    note: string,
+    flagged: boolean,
+    created_at: string,
+    minister: Member
+}
