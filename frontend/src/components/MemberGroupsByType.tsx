@@ -1,5 +1,6 @@
 import { TableBody, TableCell, TableRow } from '@mui/material/';
 import { Member } from '../utils/types';
+import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined';
 
 interface MemberGroupsByTypeProps {
     members: Member[] | undefined;
@@ -38,6 +39,7 @@ const MemberGroupsByType: React.FC<MemberGroupsByTypeProps> = ({ members, weekFr
         return (
             <div onClick={() => handleClick(member)} style={{ cursor: 'pointer' }}>
                 {firstName} {middleName} {lastName}
+                {member.isFlagged && (member) && <PriorityHighOutlinedIcon color='error'/>}
             </div>
         );
     }

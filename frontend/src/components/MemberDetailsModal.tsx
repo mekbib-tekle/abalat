@@ -18,7 +18,6 @@ const MemberModal: React.FC<MemberModalProps> = ({ open, handleClose, memberId }
         const fetchData = async () => {
             try {
                 const response = await get(`members/${memberId}`);
-                console.log({ response })
                 setMember({...response, memberType: response.memberType?.name});
             } catch (error) {
                 setMember([]);

@@ -41,3 +41,13 @@ export const formatDate = (dateString: string): string => {
   const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
   return date.toLocaleDateString('en-US', options);
 }
+
+export const isLessThan7DaysAgo = (dateStr: string): boolean => {
+  const date = new Date(dateStr);
+
+  const today = new Date();
+  const diffInMs = today.getTime() - date.getTime();
+  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+  return diffInDays < 7;
+}

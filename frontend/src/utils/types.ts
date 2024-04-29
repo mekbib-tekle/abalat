@@ -29,6 +29,7 @@ export interface Member extends BaseMember {
     memberType: string;
     latestContact: string | null;
     created_at: string;
+    isFlagged?: boolean;
 }
 
 // member data returned from api

@@ -1,7 +1,7 @@
 import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
 import { MinisterResponse, Member, MemberObj, Minister } from '../utils/types';
-import { getWeekMap } from '../utils/date';
+import { getWeekMap, isLessThan7DaysAgo } from '../utils/date';
 import { get } from '../utils/api';
 import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import MemberGroupsByContactLog from './MemberGroupsByContactLog';
@@ -16,9 +16,13 @@ export const mapResponse = (data: MinisterResponse[]): Minister[] => {
             const memberType = memberData.memberType.name;
             const contactLog = memberData.contactingMinisters;
             let latestContact = contactLog && contactLog.length ? contactLog[0].created_at : '';
+            let isFlagged = false;
             contactLog.forEach((log: any) => {
                 if (!latestContact || (new Date(log.created_at)).getTime() > (new Date(latestContact)).getTime()) {
                     latestContact = log.created_at;
+                }
+                if (isLessThan7DaysAgo(log.created_at) && log.flagged) {
+                    isFlagged = true;
                 }
             });
 
@@ -33,6 +37,7 @@ export const mapResponse = (data: MinisterResponse[]): Minister[] => {
                 memberType,
                 latestContact: getWeekMap(latestContact),
                 created_at: memberData.created_at,
+                isFlagged,
             }
         });
 
