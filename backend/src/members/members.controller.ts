@@ -13,6 +13,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { GetMember, MembersService, PostMember } from './members.service';
 import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto'
 import { ContactLog } from '../entities/contactLog.entity';
+import { Member } from '../entities/member.entity';
 @Controller('members')
 export class MembersController {
   constructor(private readonly memberService: MembersService) { }
@@ -67,5 +68,10 @@ export class MembersController {
   @Post('create')
   create(@Body() data: PostMember): Promise<GetMember> {
     return this.memberService.create(data);
+  }
+
+  @Post('update')
+  update(@Body() data: Member): Promise<GetMember> {
+    return this.memberService.update(data);
   }
 }

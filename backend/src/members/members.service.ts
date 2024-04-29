@@ -5,7 +5,9 @@ import { Member } from '../entities/member.entity';
 import * as bcrypt from 'bcrypt';
 import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto';
 import { ContactLog } from '../entities/contactLog.entity';
+import { MemberType } from '../entities/memberType.entity';
 
+// TODO clean up member service & controller
 @Injectable()
 export class MembersService {
   constructor(
@@ -13,6 +15,8 @@ export class MembersService {
     private membersRepository: Repository<Member>,
     @InjectRepository(ContactLog)
     private contactLogRepository: Repository<ContactLog>,
+    @InjectRepository(MemberType)
+    private memberTypeRepository: Repository<MemberType>,
   ) { }
 
 
@@ -61,6 +65,48 @@ export class MembersService {
     return rest;
   }
 
+  async update(member: any): Promise<GetMember> {
+    const updatedMember = await this.updateMemberType(member.id, member.memberType);
+
+    // delete the string memberType passed from client
+    delete member.memberType;
+
+    await this.membersRepository.save({
+      ...member,
+      updated_at: new Date(),
+    });
+
+    return updatedMember;
+  }
+
+  async updateMemberType(memberId: number, memberTypeString: string): Promise<Member | undefined> {
+    try {
+      const member = await this.membersRepository.findOne({
+        where: { id: memberId },
+        relations: ['memberType']
+      });
+      if (!member) {
+        return undefined;
+      }
+
+      const memberType = await this.memberTypeRepository.findOne({
+        where: { name: memberTypeString },
+      });
+
+      if (!memberType) {
+        throw new Error(`Invalid member type: ${memberTypeString}`);
+      }
+
+      member.memberType = memberType;
+      await this.membersRepository.save({...member});
+
+      return member;
+    } catch (error) {
+      console.error('Error updating member type:', error);
+      throw error;
+    }
+  }
+
   async findAll(): Promise<Member[]> {
     return await this.membersRepository.find({
       order: { firstName: 'ASC' }
@@ -68,7 +114,10 @@ export class MembersService {
   }
 
   async findOne(id: number): Promise<GetMember | null> {
-    const user = await this.membersRepository.findOneBy({ id });
+    const user = await this.membersRepository.findOne({
+      where: { id },
+      relations: ["memberType"]
+    });
     return user ? user.withNoPassword() : null;
   }
 
@@ -122,3 +171,4 @@ export class MembersService {
 // types
 export type GetMember = Omit<Member, 'password' | 'withNoPassword'>;
 export type PostMember = Omit<Member, 'id' | 'created' | 'modified'>;
+
