@@ -10,11 +10,12 @@ import {
     Container,
     Grid,
     Button,
+    Typography,
 } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 
-import { Member } from '../utils/types';
+import { Member, MemberResponse } from '../utils/types';
 import { get } from '../utils/api';
 import AddMemberModal from './AddMemberModal';
 import MemberDetailsModal from './MemberDetailsModal';
@@ -41,7 +42,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Members = () => {
     const [filter, setFilter] = useState<string>('');
+    const [allMembers, setAllMembers] = useState<Member[]>();
     const [members, setMembers] = useState<Member[]>();
+    const [regulars, setRegulars] = useState<Member[]>();
+    const [visitors, setVisitors] = useState<Member[]>();
+    const [remotes, setRemotes] = useState<Member[]>();
     const [loading, setLoading] = useState(false);
     const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
     const [openDetailsModal, setOpenDetailsModal] = useState(false);
@@ -51,28 +56,32 @@ const Members = () => {
         const fetchData = async () => {
             try {
                 const response = await get('members');
-                setMembers(response);
+                setAllMembers(response);
+                setMembers(response.filter((m: MemberResponse) => m.memberType?.name === "member"));
+                setRegulars(response.filter((m: MemberResponse) => m.memberType?.name === "regular"));
+                setVisitors(response.filter((m: MemberResponse) => m.memberType?.name === "visitor"));
+                setRemotes(response.filter((m: MemberResponse) => m.memberType?.name === "remote"));
                 setLoading(false);
             } catch (error) {
-                setMembers([]);
+                setAllMembers([]);
                 setLoading(false);
             }
         };
         fetchData();
     }, []);
 
-    const filteredMembers = members && members.length && members.filter(member =>{
+    const filteredMembers = allMembers && allMembers.length && allMembers.filter(member => {
         const filterText = filter.toLowerCase();
         return (
-          member.firstName.toLowerCase().includes(filterText) ||
-          (member.middleName && member.middleName.toLowerCase().includes(filterText)) ||
-          member.lastName.toLowerCase().includes(filterText)
+            member.firstName.toLowerCase().includes(filterText) ||
+            (member.middleName && member.middleName.toLowerCase().includes(filterText)) ||
+            member.lastName.toLowerCase().includes(filterText)
         );
-      });
+    });
 
     if (loading) return (<Container>Loading members...</Container>);
 
-    if (!members || !members.length) return (<Container>No members found.</Container>);
+    if (!allMembers || !allMembers.length) return (<Container>No members found.</Container>);
 
     const handleClickOpen = () => {
         setOpenAddMemberModal(true);
@@ -97,12 +106,45 @@ const Members = () => {
         setOpenDetailsModal(false);
     };
 
+    const printMembers = (members: Member[], heading: string) => {
+        return (
+            <>
+                <Grid item xs={12} sm={8}>
+                    <h3>{heading}</h3>
+                </Grid>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>#</StyledTableCell>
+                                <StyledTableCell>Name</StyledTableCell>
+                                <StyledTableCell>phoneNumber</StyledTableCell>
+                                <StyledTableCell>Email</StyledTableCell>
+                                <StyledTableCell>Address</StyledTableCell>
+                                <StyledTableCell>Action</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {members && members.map((member, index) => (<StyledTableRow key={member.id}>
+                                <StyledTableCell>{index+1}</StyledTableCell>
+                                <StyledTableCell>{member.firstName} {member.middleName} {member.lastName}</StyledTableCell>
+                                <StyledTableCell>{member.phoneNumber}</StyledTableCell>
+                                <StyledTableCell>{member.email}</StyledTableCell>
+                                <StyledTableCell>{member.address}</StyledTableCell>
+                                <StyledTableCell>
+                                    <Button variant="text" onClick={() => handleOpenDetailsModal(member.id)}>Details</Button>
+                                </StyledTableCell>
+                            </StyledTableRow>))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </>
+        )
+    }
+
     return (
         <Container>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={8}>
-                    <h3>Members</h3>
-                </Grid>
                 <Grid item xs={12} sm={2}>
                     <Button variant="outlined" color="primary" onClick={handleClickOpen} >
                         Add Member
@@ -118,32 +160,11 @@ const Members = () => {
                     />
                 </Grid>
             </Grid>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell>phoneNumber</StyledTableCell>
-                            <StyledTableCell>Email</StyledTableCell>
-                            <StyledTableCell>Address</StyledTableCell>
-                            <StyledTableCell>Action</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filteredMembers && filteredMembers.map(member => (
-                            <StyledTableRow key={member.id}>
-                                <StyledTableCell>{member.firstName} {member.middleName} {member.lastName}</StyledTableCell>
-                                <StyledTableCell>{member.phoneNumber}</StyledTableCell>
-                                <StyledTableCell>{member.email}</StyledTableCell>
-                                <StyledTableCell>{member.address}</StyledTableCell>
-                                <StyledTableCell>
-                                    <Button variant="text" onClick={() => handleOpenDetailsModal(member.id)}>Details</Button>
-                                </StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            {filter && filteredMembers && printMembers(filteredMembers, `Matching ${filter}`)}
+            {!filter && members && printMembers(members, "Members")}
+            {!filter && regulars && printMembers(regulars, "Regulars")}
+            {!filter && remotes && printMembers(remotes, "Remotes")}
+            {!filter && visitors && printMembers(visitors, "Visitors")}
 
             {selectedMemberId &&
                 <MemberDetailsModal open={openDetailsModal} handleClose={handleCloseDetailsModal} memberId={selectedMemberId} />}

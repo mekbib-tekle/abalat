@@ -109,6 +109,7 @@ export class MembersService {
 
   async findAll(): Promise<Member[]> {
     return await this.membersRepository.find({
+      relations: ['memberType'],
       order: { firstName: 'ASC' }
     });
   }
