@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto';
 import { ContactLog } from '../entities/contactLog.entity';
 import { MemberType } from '../entities/memberType.entity';
+import { MembersCustomRepository } from './members.custom-repository';
 
 // TODO clean up member service & controller
 @Injectable()
@@ -17,6 +18,8 @@ export class MembersService {
     private contactLogRepository: Repository<ContactLog>,
     @InjectRepository(MemberType)
     private memberTypeRepository: Repository<MemberType>,
+    @InjectRepository(MembersCustomRepository)
+    private membersCustomRepository: MembersCustomRepository
   ) { }
 
 
@@ -155,6 +158,15 @@ export class MembersService {
     });
 
     return contactLog;
+  }
+
+  async getMapping(): Promise<Member[] | null> {
+    // return await this.memberUnderMinisterRepository.find({
+    //   relations: ['member', 'minister']
+    // });
+    const ministryId = 1; // TODO support more ministries in v2
+    const members = await this.membersCustomRepository.findMembersByMinistry(ministryId);
+    return members;
   }
 
   // util

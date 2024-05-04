@@ -37,7 +37,7 @@ const ContactLogs:  React.FC<ContactLogProps> = ({ memberId }) => {
         };
 
         fetchData();
-    }, []);
+    }, [memberId]);
     
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 400, overflowY: 'auto' }}>

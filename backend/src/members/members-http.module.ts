@@ -7,10 +7,11 @@ import { MembersController } from './members.controller';
 import { MembersService } from './members.service';
 import { ContactLog } from '../entities/contactLog.entity';
 import { MemberType } from '../entities/memberType.entity';
+import { MembersCustomRepository } from './members.custom-repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Member, ContactLog, MemberType])],
-  providers: [MembersService, JwtService, ConfigService],
+  imports: [TypeOrmModule.forFeature([Member, ContactLog, MemberType, MembersCustomRepository])],
+  providers: [MembersService, JwtService, ConfigService, MembersCustomRepository],
   controllers: [MembersController],
 })
 export class MemberHttpModule {}

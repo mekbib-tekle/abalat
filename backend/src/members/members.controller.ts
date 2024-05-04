@@ -14,6 +14,7 @@ import { GetMember, MembersService, PostMember } from './members.service';
 import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto'
 import { ContactLog } from '../entities/contactLog.entity';
 import { Member } from '../entities/member.entity';
+
 @Controller('members')
 export class MembersController {
   constructor(private readonly memberService: MembersService) { }
@@ -25,6 +26,13 @@ export class MembersController {
     const ministerId = query.minister_id;
     const members = await this.memberService.followUps(ministerId, filter);
     return members.map((member) => this.memberService.mapMemberToMemberDto(member));
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('mapping')
+  async getMapping(): Promise<Member[]> {
+    const members = await this.memberService.getMapping();
+    return members;
   }
 
   @UseGuards(AuthGuard)
