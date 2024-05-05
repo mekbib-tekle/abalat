@@ -14,6 +14,8 @@ import { GetMember, MembersService, PostMember } from './members.service';
 import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto'
 import { ContactLog } from '../entities/contactLog.entity';
 import { Member } from '../entities/member.entity';
+import { UpdateMemberMinisterMappingDto } from '../dto/UpdateMemberMinisterMappingDto';
+import { MemberUnderMinister } from 'src/entities/memberUnderMinister.entity';
 
 @Controller('members')
 export class MembersController {
@@ -71,6 +73,13 @@ export class MembersController {
     @Body() updateFollowUp: UpdateFollowUpDto
   ): Promise<ContactLog> {
     return await this.memberService.updateFollowUp(updateFollowUp);
+  }
+
+  @Post('update-mapping')
+  async UpdateMemberMinisterMapping(
+    @Body() updateMemberMinisterMapping: UpdateMemberMinisterMappingDto
+  ): Promise<MemberUnderMinister> {
+    return await this.memberService.UpdateMemberMinisterMapping(updateMemberMinisterMapping);
   }
 
   @Post('create')

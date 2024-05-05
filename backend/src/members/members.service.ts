@@ -7,6 +7,8 @@ import { UpdateFollowUpDto } from '../dto/UpdateFollowUpDto';
 import { ContactLog } from '../entities/contactLog.entity';
 import { MemberType } from '../entities/memberType.entity';
 import { MembersCustomRepository } from './members.custom-repository';
+import { UpdateMemberMinisterMappingDto } from '../dto/UpdateMemberMinisterMappingDto';
+import { MemberUnderMinister } from '../entities/memberUnderMinister.entity';
 
 // TODO clean up member service & controller
 @Injectable()
@@ -19,7 +21,9 @@ export class MembersService {
     @InjectRepository(MemberType)
     private memberTypeRepository: Repository<MemberType>,
     @InjectRepository(MembersCustomRepository)
-    private membersCustomRepository: MembersCustomRepository
+    private membersCustomRepository: MembersCustomRepository,
+    @InjectRepository(MemberUnderMinister)
+    private memberUnderMinisterRepository: Repository<MemberUnderMinister>,
   ) { }
 
 
@@ -164,6 +168,24 @@ export class MembersService {
     const ministryId = 1; // TODO support more ministries in v2
     const members = await this.membersCustomRepository.findMembersByMinistry(ministryId);
     return members;
+  }
+
+  async UpdateMemberMinisterMapping(UpdateMemberMinisterMapping: UpdateMemberMinisterMappingDto): Promise<MemberUnderMinister> {
+    const { oldMinisterId, newMinisterId, memberId } = UpdateMemberMinisterMapping;
+
+    const memberUnderMinister = await this.memberUnderMinisterRepository.findOne({
+      where: { minister: { id: oldMinisterId }, member: { id: memberId } },
+    });
+
+    if (!memberUnderMinister) {
+      throw new Error('Member under minister mapping not found minister:' + oldMinisterId + ', member: ' + memberId);
+    }
+
+    const newMinister = await this.membersRepository.findOneBy({ id: newMinisterId });
+    memberUnderMinister.minister = newMinister;
+
+    const result = await this.memberUnderMinisterRepository.save(memberUnderMinister);
+    return result;
   }
 
   // util

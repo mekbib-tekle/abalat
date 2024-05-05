@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DndProvider, useDrag, useDrop, DragSourceMonitor } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { get } from '../utils/api';
+import { get, post } from '../utils/api';
 import { Container, Grid } from '@mui/material';
 
 interface DragItem {
@@ -61,6 +61,12 @@ const MinisterColumn: React.FC<{ minister: Minister, members: Minister[], setMem
           return updatedTargetMinister;
         }
         return minister;
+      });
+
+      post('members/update-mapping', {
+        oldMinisterId: sourceMinister.id,
+        newMinisterId: targetMinister.id,
+        memberId: member.member.id
       });
 
       setMembers(updateMembers);
