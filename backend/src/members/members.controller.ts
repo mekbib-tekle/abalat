@@ -30,8 +30,8 @@ export class MembersController {
 
   @UseGuards(AuthGuard)
   @Get('mapping')
-  async getMapping(): Promise<Member[]> {
-    const members = await this.memberService.getMapping();
+  async getMinisterMemberMapping(): Promise<Member[]> {
+    const members = await this.memberService.getMinisterMemberMapping();
     return members;
   }
 

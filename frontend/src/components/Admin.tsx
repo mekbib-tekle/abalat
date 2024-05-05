@@ -18,6 +18,7 @@ interface Minister {
 interface Member {
   id: string;
   name: string;
+  memberType: string;
 }
 
 // Define drag item types
@@ -66,10 +67,27 @@ const MinisterColumn: React.FC<{ minister: Minister, members: Minister[], setMem
     }
   };
 
+  const membersCount = minister.members.filter(m => m.memberType === "member").length;
+  const regularsCount = minister.members.filter(m => m.memberType === "regular").length;
+  const visitorsCount = minister.members.filter(m => m.memberType === "visitor").length;
+  const remotesCount = minister.members.filter(m => m.memberType === "remote").length;
+
   return (
-    <Grid item ref={drop} style={{ border: '1px solid black', padding: '1rem', margin: '1rem' }}>
-      <h2>{minister.name}</h2>
-      {minister.members.map((member) => (
+    <Grid item ref={drop} xs={3} className="minister-card">
+      <div className="minister-card-heading">
+        <h4>{minister.name}</h4>
+        <p>
+          <span className="member-type-cell">{membersCount} Members</span>,&nbsp;
+          <span className="regular-type-cell">{ regularsCount } Regulars</span><br/>
+          <span className="remote-type-cell">{ remotesCount} Remote</span>,&nbsp;
+          <span className="visitor-type-cell">{ visitorsCount } Visitors</span>
+        </p>
+      </div>
+      {minister.members.sort((a, b) => { // Sort alphabetically by memberType
+        if (a.memberType < b.memberType) return -1;
+        if (a.memberType > b.memberType) return 1;
+        return 0;
+      }).map((member) => (
         <MemberCard key={member.id} member={member} />
       ))}
     </Grid>
@@ -77,7 +95,6 @@ const MinisterColumn: React.FC<{ minister: Minister, members: Minister[], setMem
 };
 
 const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
-  // Inside the component:
   const [{ isDragging }, drag] = useDrag<DragItem, unknown, { isDragging: boolean }>({
     type: ItemTypes.MEMBER,
     item: { type: ItemTypes.MEMBER, member },
@@ -87,14 +104,13 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
   });
 
   return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move' }} className="member-card">
+    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move' }} className={`member-card ${member.memberType}-type-cell`}>
       {member.name}
     </div>
   );
 };
 
-// Define App component
-const App: React.FC = () => {
+const Admin: React.FC = () => {
   const [members, setMembers] = useState<Minister[]>([]);
 
   const mapResponse = (response: any): Minister[] => {
@@ -104,6 +120,7 @@ const App: React.FC = () => {
         return {
           id: mem.id,
           name: mem.firstName + " " + mem.middleName + " " + mem.lastName,
+          memberType: mem.memberType.name
         }
       })
 
@@ -140,4 +157,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Admin;

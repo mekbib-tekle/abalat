@@ -160,10 +160,7 @@ export class MembersService {
     return contactLog;
   }
 
-  async getMapping(): Promise<Member[] | null> {
-    // return await this.memberUnderMinisterRepository.find({
-    //   relations: ['member', 'minister']
-    // });
+  async getMinisterMemberMapping(): Promise<Member[] | null> {
     const ministryId = 1; // TODO support more ministries in v2
     const members = await this.membersCustomRepository.findMembersByMinistry(ministryId);
     return members;

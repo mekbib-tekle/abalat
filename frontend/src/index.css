@@ -84,6 +84,27 @@ code {
   background-color: #fae2d6;
 }
 
+.minister-card {
+  border: 1px solid black;
+  padding: 1rem;
+  margin: 1rem!important;
+  max-height: 500px;
+  overflow: scroll;
+}
+
+.minister-card h4, .minister-card p {
+  padding: 0;
+  margin: 0;
+}
+
+.minister-card .minister-card-heading {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 5px;
+  z-index: 1;
+}
+
 .member-card {
   border: 1px solid #ccc;
   padding: 10px;
