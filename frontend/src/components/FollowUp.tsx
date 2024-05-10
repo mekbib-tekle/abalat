@@ -6,6 +6,7 @@ import { get } from '../utils/api';
 import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import MemberGroupsByContactLog from './MemberGroupsByContactLog';
 import FollowUpModal from './FollowUpModal';
+import FlaggedMembersList from './FlaggedMembersList';
 
 // convert the data from the server to a more structured format
 export const mapResponse = (data: MinisterResponse[]): Minister[] => {
@@ -62,6 +63,8 @@ const FollowUp = () => {
     const [contactSource, setContactSource] = useState('own');
     const [showFollowUpModal, setShowFollowUpModal] = useState(false);
     const [selectedMember, setSelectedMember] = useState<Member>();
+    const [showFlaggedOnly, setShowFlaggedOnly] = useState<boolean>(false);
+    const [flaggedMembers, setFlaggedMembers] = useState<Member[]>();
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
@@ -70,10 +73,14 @@ const FollowUp = () => {
         setContactSource(source);
     };
 
+    const handleFlaggedChange = (event: React.MouseEvent<HTMLElement>, showFlagged: boolean) => {
+        setShowFlaggedOnly(showFlagged);
+    }
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async (uri: string) => {
             try {
-                const response = await get(`members/follow-ups?filter=${contactSource}`);
+                const response = await get(uri);
                 setMinisters(mapResponse(response));
                 setLoading(false);
             } catch (error) {
@@ -81,18 +88,59 @@ const FollowUp = () => {
                 setLoading(false);
             }
         };
-        fetchData();
+
+        fetchData(`members/follow-ups?filter=${contactSource}`);
     }, [contactSource, showFollowUpModal]);
+
+    useEffect(() => {
+        const fetchData = async (uri: string) => {
+            try {
+                const response = await get(uri);
+                const _ministers = mapResponse(response);
+
+
+                const members = _ministers && _ministers.reduce((acc: Member[], minister: Minister) => {
+                    const allMembers = minister.members;
+                    const flaggedMembers = allMembers.filter(member => member.isFlagged)
+                    return [...acc, ...flaggedMembers];
+                }, []);
+
+                setFlaggedMembers(members);
+                setLoading(false);
+            } catch (error) {
+                setFlaggedMembers([]);
+                setLoading(false);
+            }
+        }
+
+        if (showFlaggedOnly) {
+            fetchData('members/follow-ups?filter=all');
+        }
+    }, [showFlaggedOnly]);
 
     if (loading) return (<Container>Loading members...</Container>);
 
     if (!ministers || !ministers.length) return (<Container>No ministers found.</Container>);
 
+
+
     return (
         <Container>
             <h1>Follow up</h1>
             <Grid container spacing={2}>
-                <Grid item xs={12} alignContent={'right'} textAlign={'right'}>
+                <Grid item xs={6} alignContent={'left'} textAlign={'left'}>
+                    <Typography> &nbsp;&nbsp;</Typography>
+                    <ToggleButtonGroup
+                        color="primary"
+                        value={showFlaggedOnly}
+                        exclusive
+                        onChange={handleFlaggedChange}
+                    >
+                        <ToggleButton size='small' value={false}>All Members</ToggleButton>
+                        <ToggleButton size='small' value={true}>Flagged Members Only</ToggleButton>
+                    </ToggleButtonGroup>
+                </Grid>
+                <Grid item xs={6} alignContent={'right'} textAlign={'right'}>
                     <Typography>Show members contacted by &nbsp;&nbsp;</Typography>
                     <ToggleButtonGroup
                         color="primary"
@@ -104,7 +152,7 @@ const FollowUp = () => {
                         <ToggleButton size='small' value="all">All ministers</ToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
-                {ministers && ministers.map((minister) => {
+                {!showFlaggedOnly && ministers && ministers.map((minister) => {
                     return (
                         <Container key={minister.id}>
                             <Typography className='minister-header'>
@@ -119,6 +167,14 @@ const FollowUp = () => {
                         </Container>
                     );
                 })}
+
+                {showFlaggedOnly && (
+                    <FlaggedMembersList
+                        flaggedMembers={flaggedMembers}
+                        setSelectedMember={setSelectedMember}
+                        setShowFollowUpModal={setShowFollowUpModal}
+                    />
+                )}
             </Grid>
 
             {showFollowUpModal && selectedMember && <FollowUpModal member={selectedMember} onClose={() => setShowFollowUpModal(false)} />}
