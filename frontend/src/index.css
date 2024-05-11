@@ -11,3 +11,106 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.logo-text {
+  font-family: 'Roboto';
+  font-weight: 600!important;
+  letter-spacing: 2px;
+  color: #FFF;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  padding: 0 40px 0 20px;
+}
+
+.menu-item {
+  background-color: #083D77!important;
+  line-height: 30px;
+  height: 55px;
+  border-right: 1px solid #D4EEFC!important;
+  border-left: 1px solid #D4EEFC!important;
+}
+
+.menu-item p, .menu-icon {
+  color: #D4EEFC!important;
+}
+
+.menu-icon {
+  color: #D4EEFC!important;
+}
+
+.menu-item:hover {
+  background-color: #D4EEFC!important;
+}
+
+.menu-item:hover p {
+  color: #083D77!important;
+}
+
+.menu-item:hover .menu-icon {
+  color: #083D77!important;
+}
+
+.minister-header {
+  margin-bottom: 15px;
+  margin-top: 50px!important;
+  font-weight: bold!important;
+  color: #FFF;
+  background-color: #607d8b;
+  padding: 15px;
+  text-align: center;
+}
+
+.week-table-container {
+  margin-bottom: 10px;
+  box-shadow: none!important;
+}
+
+.member-cell {
+  width: 25%;
+}
+
+.member-type-cell, .member-type-1-cell {
+  background-color: #D4EEFC;
+}
+
+.regular-type-cell, .member-type-2-cell {
+  background-color: #FBFAF7;
+}
+
+.visitor-type-cell, .member-type-3-cell {
+  background-color: #F4ECC9;
+}
+
+.remote-type-cell, .member-type-4-cell {
+  background-color: #fae2d6;
+}
+
+.minister-card {
+  border: 1px solid black;
+  padding: 1rem;
+  max-height: 500px;
+  height: 500px;
+  overflow: scroll;
+}
+
+.minister-card h4, .minister-card p {
+  padding: 0;
+  margin: 0;
+}
+
+.minister-card .minister-card-heading {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 5px;
+  z-index: 1;
+}
+
+.member-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.flagged-members-table-container {
+  margin-top: 40px;
+}

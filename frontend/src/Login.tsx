@@ -16,7 +16,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from './includes/Copyright';
 import useFetch from 'use-http';
 import { useCallback, useMemo } from 'react';
-import { Auth } from './types';
+import { Auth } from './utils/types';
 
 type Props = {
   setAuthToken: React.Dispatch<React.SetStateAction<Auth | undefined>>
@@ -32,8 +32,10 @@ export default function Login({ setAuthToken } : Props) {
       username: data.get('username'),
       password: data.get('password'),
     });
-    setAuthToken(token);
-    localStorage.setItem('authToken', token.access_token);
+    if (token) {
+      setAuthToken(token);
+      localStorage.setItem('authToken', token.access_token);
+    }
   }, [post, setAuthToken]);
 
   const invalidLogin = useMemo(() => {

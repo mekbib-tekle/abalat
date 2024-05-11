@@ -1,87 +1,290 @@
-import { Avatar, Grid, Typography, List, ListItem, ListItemText, ListItemIcon, Container } from '@mui/material';
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import useFetch from 'use-http'
+import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Container from '@mui/material/Container';
+import MyFollowUp from './MyFollowUp';
 
-interface User {
-    id: number;
-    username: string;
-    email: string;
-    image_url: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    phoneNumber: string;
-    gender: string;
-    created_at: string;
-}
-  
 const Home = () => {
-    const { loading, error, data: user } = useFetch('http://localhost:8000/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      }, [])
-
-    if (loading) return (<Container>Loading user...</Container>);
-
-    if (error) return (<Container>Error: {error.message}.</Container>);
-
-    if (!user && !loading) return (<Container>No user found.</Container>);
-
-    const {
-        firstName,
-        middleName,
-        lastName,
-        email,
-        username,
-        phoneNumber,
-        image_url,
-        created_at,
-    }: User = user;
-      
-    const fullName = `${firstName} ${middleName ? middleName + ' ' : ''} ${lastName}`;
-    const formattedDate = new Date(created_at).toLocaleDateString('en-US', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
-
     return (
-        <Container maxWidth="lg">
-            <Grid container spacing={2}>
-                <Grid item xs={4} sm={2}>
-                    <Avatar sx={{ width: 100, height: 100 }}>{firstName && firstName.charAt(0)}</Avatar> {/* Placeholder avatar */}
-                    {image_url && <Avatar alt={fullName} src={image_url} sx={{ width: 100, height: 100, mt: 2 }} />} {/* Use image_url if available */}
-                </Grid>
-                <Grid item xs={8} sm={10}>
-                    <Typography variant="h6">{fullName}</Typography>
-                    <Typography variant="body2" color="text.secondary">{username}</Typography>
-                    <List dense>
-                        <ListItem>
-                            <ListItemIcon>
-                                <AlternateEmailIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Email" secondary={email} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon>
-                                <ContactPhoneIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Phone Number" secondary={phoneNumber} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon>
-                                <DateRangeIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Member Since" secondary={formattedDate} />
-                        </ListItem>
-                    </List>
+        <Container>
+
+            <Accordion>
+                <AccordionSummary id="panel-header" aria-controls="panel-content" expandIcon={<ExpandMoreIcon />}>
+                    General Stats
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Grid container spacing={1}>
+                        <Grid container xs={6} md={6} spacing={1} style={{ padding: "10px", textAlign: 'center' }}>
+                            <Grid item xs={12}>
+                                <Card><CardContent>
+                                    <Typography>TOTAL in EECFIN</Typography>
+                                    <Typography variant='h5'>159</Typography>
+                                </CardContent></Card>
+                            </Grid>
+
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Members
+                                        <Typography variant='body1' fontWeight='bold'>103</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Regulars
+                                        <Typography variant='body1' fontWeight='bold'>16</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Visitors
+                                        <Typography variant='body1' fontWeight='bold'>10</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Remote
+                                        <Typography variant='body1' fontWeight='bold'>30</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                        <Grid container xs={6} md={6} spacing={1} style={{ padding: "10px", textAlign: 'center' }}>
+                            <Grid item xs={12}>
+                                <Card><CardContent>
+                                    UNDER MY CARE
+                                    <Typography variant='h5'>48</Typography>
+                                </CardContent></Card>
+                            </Grid>
+
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Members
+                                        <Typography variant='body1' fontWeight='bold'>25</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Regulars
+                                        <Typography variant='body1' fontWeight='bold'>5</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Visitors
+                                        <Typography variant='body1' fontWeight='bold'>3</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Card>
+                                    <CardContent>
+                                        Remote
+                                        <Typography variant='body1' fontWeight='bold'>15</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </AccordionDetails>
+            </Accordion>
+
+
+            <Accordion>
+                <AccordionSummary id="panel-header" aria-controls="panel-content" expandIcon={<ExpandMoreIcon />}>
+                    Recent Activities
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Grid container spacing={1}>
+                        <Grid container xs={6} md={6} spacing={1} style={{ padding: "10px", textAlign: 'center' }}>
+                            <h3>Your recent activity</h3>
+                            <Card variant="outlined" style={{ marginBottom: '10px' }}>
+                                <CardContent>
+                                    <Typography variant="h6" className='summary-week-header'>This week</Typography>
+                                    <br />
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={3}>
+                                            <Typography>Total<br /> contacted</Typography>
+                                            <Typography> 7</Typography>
+                                        </Grid>
+                                        <Grid container spacing={2} xs={9}>
+                                            <Grid item xs={4}>
+                                                <Typography>4 <br />Phone calls</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>2 <br />Text messages</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>1 <br />Face to face</Typography>
+                                            </Grid>
+                                            <Grid xs={12}><Divider></Divider></Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>3</Typography>
+                                                <Typography>Members</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Regulars</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Visitors</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>2</Typography>
+                                                <Typography>Remote</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                            <Card variant="outlined" style={{ marginBottom: '10px' }}>
+                                <CardContent>
+                                    <Typography variant="h6" className='summary-week-header'>Last week</Typography>
+                                    <br />
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={3}>
+                                            <Typography>Total<br /> contacted</Typography>
+                                            <Typography> 13</Typography>
+                                        </Grid>
+                                        <Grid container spacing={2} xs={9}>
+                                            <Grid item xs={4}>
+                                                <Typography>8 <br />Phone calls</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>2 <br />Text messages</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>1 <br />Face to face</Typography>
+                                            </Grid>
+                                            <Grid xs={12}><Divider></Divider></Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>9</Typography>
+                                                <Typography>Members</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Regulars</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Visitors</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>2</Typography>
+                                                <Typography>Remote</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid container xs={6} md={6} spacing={1} style={{ padding: "10px", textAlign: 'center' }}>
+                            <h3>Elders' activity</h3>
+                            <Card variant="outlined" style={{ marginBottom: '10px' }}>
+                                <CardContent>
+                                    <Typography variant="h6" className='summary-week-header'>This week</Typography>
+                                    <br />
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={3}>
+                                            <Typography>Total<br /> contacted</Typography>
+                                            <Typography> 35</Typography>
+                                        </Grid>
+                                        <Grid container spacing={2} xs={9}>
+                                            <Grid item xs={4}>
+                                                <Typography>24 <br />Phone calls</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>12 <br />Text messages</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>1 <br />Face to face</Typography>
+                                            </Grid>
+                                            <Grid xs={12}><Divider></Divider></Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>30</Typography>
+                                                <Typography>Members</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Regulars</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Visitors</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>2</Typography>
+                                                <Typography>Remote</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+
+                            <Card variant="outlined" style={{ marginBottom: '10px' }}>
+                                <CardContent>
+                                    <Typography variant="h6" className='summary-week-header'>Last week</Typography>
+                                    <br />
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={3}>
+                                            <Typography>Total<br /> contacted</Typography>
+                                            <Typography> 36</Typography>
+                                        </Grid>
+                                        <Grid container spacing={2} xs={9}>
+                                            <Grid item xs={4}>
+                                                <Typography>22 <br />Phone calls</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>8 <br />Text messages</Typography>
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Typography>6 <br />Face to face</Typography>
+                                            </Grid>
+                                            <Grid xs={12}><Divider></Divider></Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>25</Typography>
+                                                <Typography>Members</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>5</Typography>
+                                                <Typography>Regulars</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>1</Typography>
+                                                <Typography>Visitors</Typography>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Typography>2</Typography>
+                                                <Typography>Remote</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </AccordionDetails>
+            </Accordion>
+            <Grid>
+                <Grid>
+                    <h3>Members under my care</h3>
+                    <MyFollowUp />
                 </Grid>
             </Grid>
         </Container>
     );
-  };
-  
-  export default Home;
+};
+
+export default Home;

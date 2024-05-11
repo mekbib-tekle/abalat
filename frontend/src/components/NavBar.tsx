@@ -9,9 +9,17 @@ import {
   Typography,
   MenuItem,
   Drawer,
+  IconButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleIcon from "@mui/icons-material/People";
+
+import ProfileIcon from './ProfileIcon';
+import { handleLogout } from '../utils/api';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -21,25 +29,6 @@ function NavBar() {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-
-  const handleLogout = async () => {
-    try {
-      // TODO change this endpoint to /logout, handle response
-      await fetch('http://localhost:8000/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
-
-      localStorage.removeItem('authToken');
-      window.location.href = '/';
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      // setError(error);
-      localStorage.removeItem('authToken');
-    }
-
-  }
 
   return (
     <div>
@@ -64,6 +53,8 @@ function NavBar() {
               maxHeight: 40,
               borderBottom: '1px solid',
               borderColor: 'divider',
+              backgroundColor: '#083D77',
+              minHeight: '55px!important',
             })}
           >
             <Box
@@ -75,35 +66,48 @@ function NavBar() {
                 px: 0,
               }}
             >
-              <Typography variant="h6" noWrap component="div" sx={{ color: 'primary.main' }}>
+              <Typography variant="h5" noWrap component="div" className='logo-text'>
                 EECFIN Member Manager
               </Typography>
-              
+
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <MenuItem
-                  onClick={() => navigate('/')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => navigate('/')} sx={{ py: '8px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <HomeIcon />
+                  </IconButton>
                   <Typography color="text.primary">
-                    Home
+                    HOME
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={() => navigate('/ministries')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
+                <MenuItem onClick={() => navigate('/follow-up')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <ConnectWithoutContactIcon />
+                  </IconButton>
                   <Typography color="text.primary">
-                    Ministries
+                    FOLLOW UPs
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  onClick={handleLogout}
-                  sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }}
-                >
+                <MenuItem onClick={() => navigate('/members')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <PeopleIcon />
+                  </IconButton>
                   <Typography color="text.primary">
-                    Logout
+                    MEMBERS
                   </Typography>
                 </MenuItem>
+                <MenuItem onClick={() => navigate('/admin')} sx={{ py: '6px', px: '12px' }} className='menu-item'>
+                  <IconButton className="menu-icon" color="inherit">
+                    <AdminPanelSettingsIcon />
+                  </IconButton>
+                  <Typography color="text.primary">
+                    ADMIN
+                  </Typography>
+                </MenuItem>
+                <MenuItem sx={{ py: '6px', px: '12px', position: 'absolute', right: 0 }}>
+                  <ProfileIcon />
+                </MenuItem>
+              </Box>
+              <Box>
               </Box>
             </Box>
             <Box
@@ -143,14 +147,23 @@ function NavBar() {
                   >
                   </Box>
                   <MenuItem onClick={() => navigate('/')}>
-                    Home
+                    HOME
                   </MenuItem>
-                  <MenuItem onClick={() => navigate('/ministries')}>
-                    Ministries
+                  <MenuItem onClick={() => navigate('/follow-up')}>
+                    FOLLOW UPs
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/members')}>
+                    MEMBERS
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/admin')}>
+                    ADMIN
                   </MenuItem>
                   <Divider />
+                  <MenuItem onClick={() => navigate('/profile')}>
+                    MY PROFILE
+                  </MenuItem>
                   <MenuItem onClick={handleLogout}>
-                    Logout
+                    LOGOUT
                   </MenuItem>
                 </Box>
               </Drawer>
