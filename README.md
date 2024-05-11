@@ -17,12 +17,20 @@ from docker desktop
 
 ### for better backend live reload
 
-Stop the backend and frontend containers from docker. Leave the database container running.
+Stop the backend and frontend containers. Leave the database container running.
+```bash
+# development
+$ cd backend
+$ npm install
+$ npm start --watch
+```
 
-`cd backend`
-`npm start --watch`
+```bash
+# development
+$ cd frontend
+$ npm install
+$ npm start
+```
 
-`cd frontend`
-`npm start`
 
 
