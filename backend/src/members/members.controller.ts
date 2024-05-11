@@ -68,6 +68,7 @@ export class MembersController {
     return member;
   }
 
+  @UseGuards(AuthGuard)
   @Post('follow-up')
   async postFollowUp(
     @Body() updateFollowUp: UpdateFollowUpDto
@@ -75,6 +76,7 @@ export class MembersController {
     return await this.memberService.updateFollowUp(updateFollowUp);
   }
 
+  @UseGuards(AuthGuard)
   @Post('update-mapping')
   async UpdateMemberMinisterMapping(
     @Body() updateMemberMinisterMapping: UpdateMemberMinisterMappingDto
@@ -87,6 +89,7 @@ export class MembersController {
     return this.memberService.create(data);
   }
 
+  @UseGuards(AuthGuard)
   @Post('update')
   update(@Body() data: Member): Promise<GetMember> {
     return this.memberService.update(data);

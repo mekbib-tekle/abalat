@@ -87,8 +87,8 @@ code {
 .minister-card {
   border: 1px solid black;
   padding: 1rem;
-  margin: 1rem!important;
   max-height: 500px;
+  height: 500px;
   overflow: scroll;
 }
 

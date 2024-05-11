@@ -79,23 +79,25 @@ const MinisterColumn: React.FC<{ minister: Minister, members: Minister[], setMem
   const remotesCount = minister.members.filter(m => m.memberType === "remote").length;
 
   return (
-    <Grid item ref={drop} xs={3} className="minister-card">
-      <div className="minister-card-heading">
-        <h4>{minister.name}</h4>
-        <p>
-          <span className="member-type-cell">{membersCount} Members</span>,&nbsp;
-          <span className="regular-type-cell">{ regularsCount } Regulars</span><br/>
-          <span className="remote-type-cell">{ remotesCount} Remote</span>,&nbsp;
-          <span className="visitor-type-cell">{ visitorsCount } Visitors</span>
-        </p>
-      </div>
-      {minister.members.sort((a, b) => { // Sort alphabetically by memberType
-        if (a.memberType < b.memberType) return -1;
-        if (a.memberType > b.memberType) return 1;
-        return 0;
-      }).map((member) => (
-        <MemberCard key={member.id} member={member} />
-      ))}
+    <Grid item ref={drop} xs={3}>
+      <Grid className="minister-card">
+        <div className="minister-card-heading">
+          <h4>{minister.name}</h4>
+          <p>
+            <span className="member-type-cell">{membersCount} Members</span>,&nbsp;
+            <span className="regular-type-cell">{regularsCount} Regulars</span><br />
+            <span className="remote-type-cell">{remotesCount} Remote</span>,&nbsp;
+            <span className="visitor-type-cell">{visitorsCount} Visitors</span>
+          </p>
+        </div>
+        {minister.members.sort((a, b) => { // Sort alphabetically by memberType
+          if (a.memberType < b.memberType) return -1;
+          if (a.memberType > b.memberType) return 1;
+          return 0;
+        }).map((member) => (
+          <MemberCard key={member.id} member={member} />
+        ))}
+      </Grid>
     </Grid>
   );
 };

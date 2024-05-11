@@ -124,7 +124,7 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
             rows={3}
             value={note}
             onChange={handleNoteChange}
-            placeholder="Write your note here..."
+            placeholder="Write your note here... (Don't write personal details)"
             fullWidth
           />
         </div>
