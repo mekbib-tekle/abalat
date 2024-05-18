@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          filename: frontend/Dockerfile
+          filename: ./frontend/Dockerfile
           target: production
           push: true
           tags: |
@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          filename: backend/Dockerfile
+          filename: ./backend/Dockerfile
           target: production
           push: true
           tags: |
