@@ -29,7 +29,7 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./frontend
           filename: ./frontend/Dockerfile
           target: production
           push: true
@@ -40,7 +40,7 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./backend
           filename: ./backend/Dockerfile
           target: production
           push: true
