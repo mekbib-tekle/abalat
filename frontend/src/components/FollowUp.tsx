@@ -89,7 +89,7 @@ const FollowUp = () => {
             }
         };
 
-        fetchData(`members/follow-ups?filter=${contactSource}`);
+        fetchData(`/members/follow-ups?filter=${contactSource}`);
     }, [contactSource, showFollowUpModal]);
 
     useEffect(() => {
@@ -114,7 +114,7 @@ const FollowUp = () => {
         }
 
         if (showFlaggedOnly) {
-            fetchData('members/follow-ups?filter=all');
+            fetchData('/members/follow-ups?filter=all');
         }
     }, [showFlaggedOnly]);
 

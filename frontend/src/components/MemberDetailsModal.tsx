@@ -17,7 +17,7 @@ const MemberModal: React.FC<MemberModalProps> = ({ open, handleClose, memberId }
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await get(`members/${memberId}`);
+                const response = await get(`/members/${memberId}`);
                 setMember({...response, memberType: response.memberType?.name});
             } catch (error) {
                 setMember([]);
@@ -64,7 +64,7 @@ const MemberModal: React.FC<MemberModalProps> = ({ open, handleClose, memberId }
         event.preventDefault();
         if (member) {
             console.log({member})
-            post('members/update', member);
+            post('/members/update', member);
             handleClose();
         }
     };

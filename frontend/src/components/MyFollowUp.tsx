@@ -20,7 +20,7 @@ const FollowUp = () => {
             const decodedToken = token ? decodeToken(token) : null;
 
             try {
-                const response = await get(`members/follow-ups?minister_id=${decodedToken?.sub}`);
+                const response = await get(`/members/follow-ups?minister_id=${decodedToken?.sub}`);
                 setMinisters(mapResponse(response));
                 setLoading(false);
             } catch (error) {

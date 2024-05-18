@@ -12,7 +12,7 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await get('auth/profile');
+            const response = await get('/auth/profile');
             setUser(response);
             setLoading(false);
         };

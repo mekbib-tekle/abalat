@@ -63,7 +63,7 @@ const MinisterColumn: React.FC<{ minister: Minister, members: Minister[], setMem
         return minister;
       });
 
-      post('members/update-mapping', {
+      post('/members/update-mapping', {
         oldMinisterId: sourceMinister.id,
         newMinisterId: targetMinister.id,
         memberId: member.member.id
@@ -143,7 +143,7 @@ const Admin: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await get(`members/mapping`);
+        const response = await get(`/members/mapping`);
         setMembers(mapResponse(response));
       } catch (error) {
         setMembers([]);

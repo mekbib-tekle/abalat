@@ -53,7 +53,7 @@ const FollowUpModal: React.FC<FollowUpModalProps> = ({ member, onClose }) => {
     const token = localStorage.getItem('authToken');
     const decodedToken = token ? decodeToken(token) : null;
 
-    post("members/follow-up", {
+    post("/members/follow-up", {
       flagged,
       note,
       contactMethod,

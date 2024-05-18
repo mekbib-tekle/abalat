@@ -27,7 +27,7 @@ const ContactLogs:  React.FC<ContactLogProps> = ({ memberId }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await get(`members/contact-log/${memberId}`);
+                const response = await get(`/members/contact-log/${memberId}`);
                 console.log({response})
                 setContactLog(response);
             } catch (error) {

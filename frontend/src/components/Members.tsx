@@ -54,7 +54,7 @@ const Members = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await get('members');
+                const response = await get('/members');
                 setAllMembers(response);
                 setMembers(response.filter((m: MemberResponse) => m.memberType?.name === "member"));
                 setRegulars(response.filter((m: MemberResponse) => m.memberType?.name === "regular"));
