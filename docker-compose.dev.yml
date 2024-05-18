@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  mysql:
+    container_name: database
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: abalat
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      target: development
+    environment:
+      NODE_ENV: development
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: abalat
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      target: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    environment:
+      CHOKIDAR_USEPOLLING: true
+      # - WDS_SOCKET_HOST: 127.0.0.1
+
+volumes:
+  mysql_data: # Persist data between container restarts
+  frontend:

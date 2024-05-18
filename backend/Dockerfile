@@ -1,38 +1,46 @@
-# Use a lightweight Node.js image
-FROM node:18-alpine AS builder
+FROM node:18-alpine AS base
 
-# Set working directory
 WORKDIR /app
-
-RUN apk update && \
-    apk add --no-cache python3 make g++ && \
-    rm -rf /var/cache/apk/*
+RUN apk update && apk add --no-cache python3 make g++ && rm -rf /var/cache/apk/*
 
 # Set Python 3 as the default Python interpreter
 RUN ln -sf python3 /usr/bin/python
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
-
-# Copy remaining project files
 COPY . .
 
-# Build the NestJS app
-# CMD ["npm", "run", "build"]
-
-# Switch to a slimmer image for production
-# FROM node:18-alpine
-
-# Copy the built artifacts
-# COPY --from=builder /app/dist /app
-
-# Rebuild bcrypt
+# Rebuild bcrypt (or any other native modules)
 RUN npm rebuild bcrypt --build-from-source
-# Expose the port
+
+# Development stage
+FROM base AS development
+
+# Expose the development server port
 EXPOSE 8000
 
-# Start the NestJS server
-CMD ["npm", "start"]
+# Start the NestJS development server with hot reloading
+CMD ["npm", "run", "start:dev"]
+
+# Build stage
+FROM base AS build
+
+# Build the NestJS application
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine AS production
+
+# Set working directory
+WORKDIR /app
+
+# Copy only the build output and production dependencies
+COPY package*.json ./
+RUN npm ci --only=production
+COPY --from=build /app/dist ./dist
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Start the NestJS application
+CMD ["node", "dist/main"]
