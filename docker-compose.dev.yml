@@ -33,6 +33,8 @@ services:
     build:
       context: ./frontend
       target: development
+      args:
+        REACT_APP_API_URL: http://localhost:8000
     ports:
       - "3000:3000"
     depends_on:
