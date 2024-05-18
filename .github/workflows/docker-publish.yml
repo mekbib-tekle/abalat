@@ -29,7 +29,9 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend
+          context:
+            filename: ./frontend/Dockerfile
+            target: production
           push: true
           tags: |
             ghcr.io/mekbib-tekle/abalat-frontend:latest
@@ -38,7 +40,9 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
+          context:
+            filename: ./backend/Dockerfile
+            target: production
           push: true
           tags: |
             ghcr.io/mekbib-tekle/abalat-backend:latest
