@@ -14,15 +14,15 @@ services:
 
   backend:
     container_name: backend
-    build:
-      context: ./backend
-      target: production
+    image: ghcr.io/mekbib-tekle/abalat-backend:latest
     environment:
       NODE_ENV: production
       MYSQL_HOST: mysql
       MYSQL_DATABASE: abalat
       MYSQL_USER: root
       MYSQL_PASSWORD: root
+    networks:
+      - abalat-networks
     ports:
       - "8000:8000"
     depends_on:
@@ -30,9 +30,7 @@ services:
 
   frontend:
     container_name: frontend
-    build:
-      context: ./frontend
-      target: production
+    image: ghcr.io/mekbib-tekle/abalat-frontend:latest
     ports:
       - "80:80"
     depends_on:
@@ -41,7 +39,15 @@ services:
       - ./frontend:/app
     environment:
       CHOKIDAR_USEPOLLING: true
+      REACT_APP_API_URL: backend:8000/
       # - WDS_SOCKET_HOST: 127.0.0.1
+    networks:
+      - abalat-networks
+
+networks:
+  abalat-networks:
+    driver: bridge
+
 
 volumes:
   mysql_data: # Persist data between container restarts

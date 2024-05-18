@@ -27,6 +27,7 @@ $ npm start --watch
 
 ```bash
 # development
+$ cp .env.example .env
 $ cd frontend
 $ npm install
 $ npm start
