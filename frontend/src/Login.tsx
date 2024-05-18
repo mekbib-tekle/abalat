@@ -24,7 +24,7 @@ type Props = {
 
 export default function Login({ setAuthToken } : Props) {
 
-  const { post, response, error } = useFetch('/auth/login')
+  const { post, response, error } = useFetch(`${process.env.REACT_APP_API_URL}auth/login`)
   const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
