@@ -1,6 +1,6 @@
 
 export const get = async (url: string) => {
-  const response = await fetch(process.env.REACT_APP_API_URL + url, {
+  const response = await fetch('http://38.242.139.85' + url, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
     },
@@ -15,7 +15,7 @@ export const get = async (url: string) => {
 };
 
 export const post = async (url: string, body: any) => {
-  const response = await fetch(process.env.REACT_APP_API_URL + url, {
+  const response = await fetch('http://38.242.139.85' + url, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -31,7 +31,7 @@ export const post = async (url: string, body: any) => {
 export const handleLogout = async () => {
   try {
     // TODO change this endpoint to /logout, handle response
-    await fetch(process.env.REACT_APP_API_URL + 'auth/profile', {
+    await fetch('http://38.242.139.85' + 'auth/profile', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('authToken')}`,
       },
