@@ -19,7 +19,7 @@ services:
     image: ghcr.io/mekbib-tekle/abalat-backend:latest
     environment:
       NODE_ENV: production
-      MYSQL_HOST: localhost
+      MYSQL_HOST: mysql
       MYSQL_DATABASE: abalat
       MYSQL_USER: root
       MYSQL_PASSWORD: root
