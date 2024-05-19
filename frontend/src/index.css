@@ -114,3 +114,13 @@ code {
 .flagged-members-table-container {
   margin-top: 40px;
 }
+
+.no-members-found {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.no-members-found p {
+  color: #511016;
+}
