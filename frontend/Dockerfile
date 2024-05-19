@@ -28,7 +28,7 @@ FROM nginx:alpine AS production
 # Copy the build output to nginx's html directory
 COPY --from=build /app/build /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/nginx.conf
+# COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose the port nginx will run on
 EXPOSE 80
