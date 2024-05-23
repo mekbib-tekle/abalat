@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { DndProvider, useDrag, useDrop, DragSourceMonitor } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { get, post } from '../utils/api';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 
 interface DragItem {
   type: string;
@@ -155,6 +155,7 @@ const Admin: React.FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Container>
+        <Typography color='secondary'>Drag and drop members from one minister to another</Typography>
         <Grid container spacing={1}>
           {members.map((minister) => (
             <MinisterColumn key={minister.id} minister={minister} members={members} setMembers={setMembers} />

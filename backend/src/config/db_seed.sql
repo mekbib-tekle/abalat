@@ -1,3 +1,131 @@
+CREATE DATABASE IF NOT EXISTS abalat;
+-- abalat.member_type definition
+use abalat;
+CREATE TABLE IF NOT EXISTS `member_type` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- abalat.ministry definition
+
+CREATE TABLE IF NOT EXISTS `ministry` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `is_active` tinyint NOT NULL DEFAULT '1',
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- abalat.`role` definition
+
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `display_name` varchar(255) NOT NULL,
+  `is_visible` tinyint NOT NULL DEFAULT '1',
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- abalat.`member` definition
+
+CREATE TABLE IF NOT EXISTS `member` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `previous_church` varchar(255) DEFAULT NULL,
+  `role_in_previous_church` varchar(255) DEFAULT NULL,
+  `spouse_name` varchar(255) DEFAULT NULL,
+  `children_names` varchar(255) DEFAULT NULL,
+  `emergency_contact` varchar(255) DEFAULT NULL,
+  `marital_status` enum('Married','Single','Divorced','Widowed') NOT NULL,
+  `has_letter_from_prev_church` tinyint DEFAULT NULL,
+  `notes` varchar(255) DEFAULT NULL,
+  `gender` enum('Male','Female') DEFAULT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `is_active` tinyint NOT NULL DEFAULT '1',
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `member_type_id` int DEFAULT NULL,
+  `is_baptised` tinyint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_1945f9202fcfbce1b439b47b77` (`username`),
+  KEY `FK_dfe7c8528514d83e17b6aa47bd4` (`member_type_id`),
+  CONSTRAINT `FK_dfe7c8528514d83e17b6aa47bd4` FOREIGN KEY (`member_type_id`) REFERENCES `member_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- abalat.member_ministry definition
+
+CREATE TABLE IF NOT EXISTS `member_ministry` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `deleted_at` datetime(6) DEFAULT NULL,
+  `member_id` int DEFAULT NULL,
+  `ministry_id` int DEFAULT NULL,
+  `role_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_0fd61dc8c09833318fcecab6cad` (`member_id`),
+  KEY `FK_8ab5bc4b4456333128368a2fc4a` (`ministry_id`),
+  KEY `FK_218461742fbe962ab6e00e506ab` (`role_id`),
+  CONSTRAINT `FK_0fd61dc8c09833318fcecab6cad` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+  CONSTRAINT `FK_218461742fbe962ab6e00e506ab` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  CONSTRAINT `FK_8ab5bc4b4456333128368a2fc4a` FOREIGN KEY (`ministry_id`) REFERENCES `ministry` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- abalat.member_under_minister definition
+
+CREATE TABLE IF NOT EXISTS `member_under_minister` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `minister_id` int DEFAULT NULL,
+  `member_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_89a7331afbf827a83f408fd8cb8` (`minister_id`),
+  KEY `FK_372dfcbb4afe537ca06a967fe28` (`member_id`),
+  CONSTRAINT `FK_372dfcbb4afe537ca06a967fe28` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+  CONSTRAINT `FK_89a7331afbf827a83f408fd8cb8` FOREIGN KEY (`minister_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- abalat.contact_log definition
+
+CREATE TABLE IF NOT EXISTS `contact_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `minister_id` int DEFAULT NULL,
+  `member_id` int DEFAULT NULL,
+  `contactMethod` varchar(255) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `flagged` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `FK_38416bf2822a129786bd3ea3af4` (`minister_id`),
+  KEY `FK_219bdfc6ee332f5d8e9b6d39453` (`member_id`),
+  CONSTRAINT `FK_219bdfc6ee332f5d8e9b6d39453` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+  CONSTRAINT `FK_38416bf2822a129786bd3ea3af4` FOREIGN KEY (`minister_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 INSERT INTO abalat.member_type (name,display_name,created_at,updated_at) VALUES
 	 ('member','Member','2024-03-14 08:00:57.714993','2024-03-14 08:00:57.714993'),
 	 ('regular','Regular','2024-03-30 11:12:03.751732','2024-04-07 10:56:03.768395'),
