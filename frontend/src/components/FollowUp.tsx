@@ -174,14 +174,14 @@ const FollowUp = () => {
                         setSelectedMember={setSelectedMember}
                         setShowFollowUpModal={setShowFollowUpModal}
                     />
-                ) : (<Grid item xs={12}>
+                ) : (showFlaggedOnly && (<Grid item xs={12}>
                     <div className="no-members-found">
                         <p>No flagged members found!</p>
                         <span className="error-icon">
                             <i className="fas fa-exclamation-circle"></i>
                         </span>
                     </div>
-                </Grid>)}
+                </Grid>))}
             </Grid>
 
             {showFollowUpModal && selectedMember && <FollowUpModal member={selectedMember} onClose={() => setShowFollowUpModal(false)} />}
