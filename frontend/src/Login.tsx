@@ -17,15 +17,14 @@ import Copyright from './includes/Copyright';
 import useFetch from 'use-http';
 import { useCallback, useMemo } from 'react';
 import { Auth } from './utils/types';
+import { rootURL } from './utils/api';
 
 type Props = {
   setAuthToken: React.Dispatch<React.SetStateAction<Auth | undefined>>
 }
 
 export default function Login({ setAuthToken } : Props) {
-
-  const rootUrl = 'http://localhost:8000'; //process.env.REACT_APP_API_URL;
-  const { post, response, error } = useFetch(`${rootUrl}/auth/login`)
+  const { post, response, error } = useFetch(`${rootURL}/auth/login`)
   // const { post, response, error } = useFetch(`http://38.242.139.85:8000/auth/login`)
   const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
