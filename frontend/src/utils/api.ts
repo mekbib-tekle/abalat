@@ -1,5 +1,5 @@
 // const rootURL = 'http://localhost:8000'; //process.env.REACT_APP_API_URL;
-export const rootURL = `http://${window.location.hostname}`;
+export const rootURL = `http://${window.location.hostname}/api/v1`;
 export const get = async (url: string) => {
   const response = await fetch(rootURL + url, {
     headers: {
