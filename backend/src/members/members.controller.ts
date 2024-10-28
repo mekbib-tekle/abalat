@@ -17,7 +17,7 @@ import { Member } from '../entities/member.entity';
 import { UpdateMemberMinisterMappingDto } from '../dto/UpdateMemberMinisterMappingDto';
 import { MemberUnderMinister } from 'src/entities/memberUnderMinister.entity';
 
-@Controller('members')
+@Controller('api/v1/members')
 export class MembersController {
   constructor(private readonly memberService: MembersService) { }
 
